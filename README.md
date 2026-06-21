@@ -206,56 +206,24 @@ npm run preview
 
 ### 1. GitHub Pages
 
-项目已包含 `public/CNAME` 文件（自定义域名 `ckm.ndjp.net`）。使用 GitHub Actions 自动部署：
+项目已包含 `public/CNAME` 文件（自定义域名 `ckm.ndjp.net`）和 `.github/workflows/deploy.yml` 工作流。`astro.config.mjs` 中的 `getBase()` 函数会根据 `GITHUB_REPOSITORY` 环境变量**自动推导**正确的 `base` 路径，无需手动配置。
 
-**步骤：**
+**部署步骤：**
 
 1. 将代码推送到 GitHub 仓库
 2. 进入仓库 **Settings → Pages → Build and deployment → Source**，选择 **GitHub Actions**
-3. 在仓库根目录创建 `.github/workflows/deploy.yml`：
+3. 推送到 `main` 分支后自动构建部署
 
-```yaml
-name: Deploy to GitHub Pages
+**动态路径适配逻辑：**
 
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+| 部署场景 | `base` 自动推导结果 | 访问地址 |
+|---------|-------------------|---------|
+| 原作者（`bbylw`）+ 自定义域名 | `/` | `https://ckm.ndjp.net/` |
+| 他人 fork + 默认 GitHub Pages | `/仓库名/` | `https://用户名.github.io/仓库名/` |
+| 任何人 + `用户名.github.io` 仓库 | `/` | `https://用户名.github.io/` |
+| 本地开发（`npm run dev`） | `/` | `http://localhost:4321/` |
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
-```
-
-4. 推送到 `main` 分支后自动构建部署。如使用自定义域名，确保 `public/CNAME` 文件存在且 DNS 已正确解析
-
-> **注意**：若部署在 `https://用户名.github.io/仓库名/` 子路径下（非自定义域名），需在 `astro.config.mjs` 中添加 `base: '/仓库名'`。
+> **🔗 Fork/Clone 用户重要提示**：如果你 fork 了本项目，请务必**删除 `public/CNAME` 文件**（或将其内容改为你自己的域名）。`CNAME` 文件中写的是原作者的域名 `ckm.ndjp.net`，GitHub Pages 会尝试将你的站点服务到该域名，导致站点无法访问。删除后，`getBase()` 会自动将 `base` 设为 `/你的仓库名/`，站点在 `https://你的用户名.github.io/仓库名/` 正常访问。
 
 ---
 
@@ -562,7 +530,7 @@ const description = '页面描述';
 
 ## 📥 原始文档下载
 
-资源页（`resources.html`）的「下载源文件」章节提供两份 PDF：
+资源页（`/resources/`）的「下载源文件」章节提供两份 PDF：
 
 | 文档 | 大小 | 说明 |
 |------|------|------|
