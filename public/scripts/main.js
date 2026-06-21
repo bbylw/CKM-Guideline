@@ -103,10 +103,14 @@
 
   /* ---------- 当前页高亮 ---------- */
   function highlightCurrent() {
-    const path = location.pathname.split("/").pop() || "index.html";
+    // 适配目录路由：pathname 形如 /CKM-Guideline/overview/ 或 /overview/ 或 /
+    var segments = location.pathname.replace(/\/+$/, "").split("/");
+    var current = segments.pop() || ""; // 末段：overview / staging / "" (首页)
     document.querySelectorAll("[data-nav-link]").forEach(function (link) {
-      const href = link.getAttribute("href");
-      if (href === path) link.setAttribute("aria-current", "page");
+      var href = link.getAttribute("href") || "";
+      // 提取 href 的末段用于比较（忽略 base 前缀）
+      var linkSeg = href.replace(/\/+$/, "").split("/").pop() || "";
+      if (linkSeg === current) link.setAttribute("aria-current", "page");
     });
   }
 

@@ -4,6 +4,7 @@ import PageHeader from '../components/PageHeader.astro';
 
 const title = '参考资源 · CKM 健康指南';
 const description = 'CKM 指南缩略语表、术语表、关键临床试验、参考文献与指南方法学。';
+const base = import.meta.env.BASE_URL;
 
 const navCards = [
   { href: '#abbrev', chip: '缩略语', desc: '完整中英对照表' },
@@ -228,7 +229,7 @@ const methodCards = [
 
       <div class="grid md:grid-cols-2 gap-5">
         {/* 中文翻译版 */}
-        <a href="/CKM指南完整中文翻译.pdf" download class="card card-hover p-6 group flex flex-col" style="border-left:4px solid #0f766e">
+        <a href={base + "CKM指南完整中文翻译.pdf"} download class="card card-hover p-6 group flex flex-col" style="border-left:4px solid #0f766e">
           <div class="flex items-start gap-4 mb-4">
             <div class="tri-dot flex-shrink-0" style="background:#f0fdfa;color:#0f766e;border:1px solid #99f6e4;width:48px;height:48px;font-size:1.3rem">中</div>
             <div class="flex-1">
@@ -246,7 +247,7 @@ const methodCards = [
         </a>
 
         {/* 英文原版 */}
-        <a href="/CKM2026.pdf" download class="card card-hover p-6 group flex flex-col" style="border-left:4px solid #b45309">
+        <a href={base + "CKM2026.pdf"} download class="card card-hover p-6 group flex flex-col" style="border-left:4px solid #b45309">
           <div class="flex items-start gap-4 mb-4">
             <div class="tri-dot flex-shrink-0" style="background:#fffbeb;color:#b45309;border:1px solid #fde68a;width:48px;height:48px;font-size:1.3rem">EN</div>
             <div class="flex-1">
@@ -317,8 +318,8 @@ const methodCards = [
       <h2 class="font-serif text-2xl font-bold text-ink mb-3">回到起点</h2>
       <p class="text-muted mb-6 max-w-md mx-auto">你已经读完了整个 CKM 健康科普网站。回到首页重新回顾关键信息，或选择一个主题深入阅读。</p>
       <div class="flex flex-wrap gap-3 justify-center">
-        <a href="/index.html" class="btn btn-primary">返回首页</a>
-        <a href="/overview.html" class="btn btn-ghost">重新认识 CKM</a>
+        <a href={base} class="btn btn-primary">返回首页</a>
+        <a href={base + "overview/"} class="btn btn-ghost">重新认识 CKM</a>
       </div>
     </div>
   </section>

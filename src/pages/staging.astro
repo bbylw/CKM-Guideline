@@ -5,6 +5,7 @@ import Cta from '../components/Cta.astro';
 
 const title = 'CKM 分期系统 · CKM 健康指南';
 const description = 'CKM 综合征 0–4 期详细诊断标准、阈值，以及儿童青少年分期、KDIGO CKD 风险分级、代谢综合征定义。';
+const base = import.meta.env.BASE_URL;
 
 const stageOverview = [
   { color: '#a8a29e', stage: 'Stage 0', desc: '无 CKM 风险因素', detail: 'BMI、腰围、血糖、血压、血脂均正常；无 CKD 或亚临床/临床 CVD。重点是<strong>原始预防</strong>。' },
@@ -66,7 +67,7 @@ const accordions = [
       <div class="card p-5" style="border-left:4px solid #be123c"><h3 class="font-serif font-bold text-ink mb-1">Stage 4a</h3><p class="text-sm text-muted">临床 CVD + CKM 风险因素，<strong>无肾衰竭</strong>。eGFR ≥ 15 mL/min/1.73m²，未长期透析。</p></div>
       <div class="card p-5" style="border-left:4px solid #7f1d1d"><h3 class="font-serif font-bold text-ink mb-1">Stage 4b</h3><p class="text-sm text-muted">临床 CVD + CKM 风险因素，<strong>有肾衰竭</strong>。eGFR &lt; 15 mL/min/1.73m² 或需要长期肾脏替代治疗。</p></div>
     </div>
-    <p class="text-sm text-muted mt-4">4 期管理侧重于在 CKM 风险因素背景下优化 CVD <strong>二级预防</strong>，强调强化生活方式与风险因素修改、维持健康体重与最佳风险因素控制。详见<a href="/cvd.html" class="text-brand font-medium hover:underline">心血管疾病管理</a>。</p>`,
+    <p class="text-sm text-muted mt-4">4 期管理侧重于在 CKM 风险因素背景下优化 CVD <strong>二级预防</strong>，强调强化生活方式与风险因素修改、维持健康体重与最佳风险因素控制。详见<a href={base + "cvd/"} class="text-brand font-medium hover:underline">心血管疾病管理</a>。</p>`,
   },
 ];
 
@@ -216,7 +217,7 @@ const tabs = [
   <Cta
     title="如何评估你的风险？"
     description="分期之后，需要量化心血管风险——PREVENT 公式是核心工具。"
-    linkHref="/assessment.html"
+    linkHref={base + "assessment/"}
     linkLabel="查看评估诊断 →"
     gradient="linear-gradient(135deg,#fffbeb,#f0fdfa)"
   />

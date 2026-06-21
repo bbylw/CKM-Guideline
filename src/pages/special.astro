@@ -6,6 +6,7 @@ import Recommendation from '../components/Recommendation.astro';
 
 const title = '特殊情况与监测 · CKM 健康指南';
 const description = 'CKM 综合征的特殊情况：MASLD、OSA、妊娠、VTE，治疗监测与未来研究方向。';
+const base = import.meta.env.BASE_URL;
 
 const navCards = [
   { href: '#masld', chip: '肝脏', desc: 'MASLD 代谢功能障碍相关脂肪性肝病' },
@@ -281,7 +282,7 @@ const futurePoints = [
     eyebrow="最后一步"
     title="查阅参考资源"
     description="缩略语表、术语表、关键临床试验与参考文献汇总。"
-    linkHref="/resources.html"
+    linkHref={base + "resources/"}
     linkLabel="查看参考资源 →"
     gradient="linear-gradient(135deg,#f0fdfa,#f5f3ff)"
   />

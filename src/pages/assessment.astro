@@ -6,6 +6,7 @@ import Recommendation from '../components/Recommendation.astro';
 
 const title = '评估与诊断 · CKM 健康指南';
 const description = 'CKM 综合征的诊断方法、PREVENT 心血管风险公式、风险增强因素与社会健康决定因素 (SDOH) 评估。';
+const base = import.meta.env.BASE_URL;
 
 const diagnosticRecs = [
   { cor: '1' as const, loe: 'B-NR', body: '在儿童青少年（&lt; 18 岁）和成人（≥ 18 岁）中，应通过评估<strong>代谢风险因素、肾功能（计算 eGFR，CKM 2 期及以上增加 UACR）和 CVD 状态</strong>进行 CKM 分期，以支持预防进展、促进回归并按绝对风险个体化治疗。' },
@@ -262,7 +263,7 @@ const caregiverTools = [
     eyebrow="下一步"
     title="如何管理与治疗？"
     description="了解了一般照护原则与生活方式干预——这是所有分期管理的第一基石。"
-    linkHref="/management.html"
+    linkHref={base + "management/"}
     linkLabel="查看管理原则 →"
     gradient="linear-gradient(135deg,#fff1f2,#f0fdfa)"
   />

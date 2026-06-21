@@ -1,11 +1,13 @@
 ---
 import { navItems } from '../config/navigation';
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <header class="site-header">
   <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
-      <a href="/index.html" class="flex items-center gap-2.5 group">
+      <a href={base} class="flex items-center gap-2.5 group">
         <span class="tri-dot" style="background:#0f766e;color:#fff;width:36px;height:36px;font-size:0.95rem">心</span>
         <span class="flex flex-col leading-none">
           <span class="font-serif font-bold text-ink text-[1.05rem]">CKM 健康指南</span>
@@ -15,7 +17,7 @@ import { navItems } from '../config/navigation';
 
       <nav class="hidden lg:flex items-center gap-6" aria-label="主导航">
         {navItems.map((item) => (
-          <a class="nav-link" href={item.href} data-nav-link>{item.label}</a>
+          <a class="nav-link" href={base + item.path} data-nav-link>{item.label}</a>
         ))}
       </nav>
 
@@ -30,7 +32,7 @@ import { navItems } from '../config/navigation';
       {navItems.map((item, i) => (
         <a
           class={`nav-link !px-2 !py-2.5 ${i < navItems.length - 1 ? 'border-b border-line/60' : ''}`}
-          href={item.href}
+          href={base + item.path}
           data-nav-link
         >{item.label}</a>
       ))}

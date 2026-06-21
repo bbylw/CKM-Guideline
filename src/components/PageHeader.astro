@@ -18,12 +18,14 @@ const {
   gradientFrom = 'var(--color-brand-tint)',
   eyebrowColor,
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <section class="border-b border-line" style={`background:linear-gradient(180deg, ${gradientFrom} 0%, var(--color-bg) 100%)`}>
   <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
     <nav class="text-sm text-subtle mb-4" aria-label="面包屑">
-      <a href="/index.html" class="hover:text-brand">首页</a>
+      <a href={base} class="hover:text-brand">首页</a>
       <span class="mx-1.5">/</span>
       <span class="text-ink">{breadcrumb}</span>
     </nav>

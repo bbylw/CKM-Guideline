@@ -6,6 +6,7 @@ import Recommendation from '../components/Recommendation.astro';
 
 const title = '心血管疾病管理 · CKM 健康指南';
 const description = 'CKM 4 期心血管疾病管理：ASCVD、心力衰竭（HFrEF/HFpEF）、心房颤动与晚期 CKD 的二级预防策略。';
+const base = import.meta.env.BASE_URL;
 
 const navCards = [
   { href: '#ascvd', chip: 'ASCVD', chipBg: '#fff1f2', chipColor: '#be123c', chipBorder: '#fecdd3', desc: '动脉粥样硬化性心血管疾病' },
@@ -223,7 +224,7 @@ const afCards = [
     eyebrow="下一步"
     title="特殊情况与长期监测"
     description="MASLD、OSA、妊娠、VTE，以及治疗开始后的监测与未来研究方向。"
-    linkHref="/special.html"
+    linkHref={base + "special/"}
     linkLabel="查看特殊情况 →"
     gradient="linear-gradient(135deg,#f5f3ff,#fffbeb)"
   />

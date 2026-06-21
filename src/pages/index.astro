@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'CKM 健康指南 · 心血管-肾脏-代谢综合征科普';
 const description = '基于 2026 AHA/ACC/ADA/ASN 心血管-肾脏-代谢综合征防治指南的中文科普网站——认识 CKM 综合征、分期、风险评估、管理与治疗。';
+const base = import.meta.env.BASE_URL;
 
 const keyPoints = [
   { n: '1', title: '对儿童与成人进行 CKM 分期', desc: '预防分期进展、按绝对风险制定治疗、降低心血管事件与肾功能丧失，并通过生活方式与减重促进分期逆转。' },
@@ -26,14 +27,14 @@ const stages = [
 ];
 
 const topics = [
-  { href: '/overview.html', char: '识', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '认识 CKM 综合征', desc: '定义、组成要素、相关疾病、为什么把它放在一起看。' },
-  { href: '/staging.html', char: '期', bg: '#f0fdfa', color: '#0d9488', border: '#99f6e4', title: '分期系统', desc: '0–4 期的诊断标准、阈值，以及儿童青少年分期。' },
-  { href: '/assessment.html', char: '估', bg: '#eff6ff', color: '#0369a1', border: '#bfdbfe', title: '评估与诊断', desc: 'PREVENT 风险公式、风险增强因素、SDOH 与纵向随访。' },
-  { href: '/management.html', char: '护', bg: '#fffbeb', color: '#b45309', border: '#fde68a', title: '管理原则与生活方式', desc: '多学科照护、Life\'s Essential 8、强化生活方式改变。' },
-  { href: '/treatment.html', char: '药', bg: '#f0fdfa', color: '#0f766e', border: '#99f6e4', title: '药物与手术治疗', desc: 'GLP-1、SGLT2i、RASi、finerenone、减重药与代谢减重手术。' },
-  { href: '/cvd.html', char: '心', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '心血管疾病管理', desc: '4 期 ASCVD、心衰（HFrEF/HFpEF）、房颤与晚期 CKD 的管理。' },
-  { href: '/special.html', char: '殊', bg: '#f5f3ff', color: '#7c3aed', border: '#ddd6fe', title: '特殊情况与监测', desc: 'MASLD、OSA、妊娠、VTE、治疗监测与未来研究方向。' },
-  { href: '/resources.html', char: '源', bg: '#f5f5f4', color: '#57534e', border: '#d6d3d1', title: '参考资源', desc: '缩略语表、术语表、关键临床试验与参考文献。' },
+  { href: base + 'overview/', char: '识', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '认识 CKM 综合征', desc: '定义、组成要素、相关疾病、为什么把它放在一起看。' },
+  { href: base + 'staging/', char: '期', bg: '#f0fdfa', color: '#0d9488', border: '#99f6e4', title: '分期系统', desc: '0–4 期的诊断标准、阈值，以及儿童青少年分期。' },
+  { href: base + 'assessment/', char: '估', bg: '#eff6ff', color: '#0369a1', border: '#bfdbfe', title: '评估与诊断', desc: 'PREVENT 风险公式、风险增强因素、SDOH 与纵向随访。' },
+  { href: base + 'management/', char: '护', bg: '#fffbeb', color: '#b45309', border: '#fde68a', title: '管理原则与生活方式', desc: '多学科照护、Life\'s Essential 8、强化生活方式改变。' },
+  { href: base + 'treatment/', char: '药', bg: '#f0fdfa', color: '#0f766e', border: '#99f6e4', title: '药物与手术治疗', desc: 'GLP-1、SGLT2i、RASi、finerenone、减重药与代谢减重手术。' },
+  { href: base + 'cvd/', char: '心', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '心血管疾病管理', desc: '4 期 ASCVD、心衰（HFrEF/HFpEF）、房颤与晚期 CKD 的管理。' },
+  { href: base + 'special/', char: '殊', bg: '#f5f3ff', color: '#7c3aed', border: '#ddd6fe', title: '特殊情况与监测', desc: 'MASLD、OSA、妊娠、VTE、治疗监测与未来研究方向。' },
+  { href: base + 'resources/', char: '源', bg: '#f5f5f4', color: '#57534e', border: '#d6d3d1', title: '参考资源', desc: '缩略语表、术语表、关键临床试验与参考文献。' },
 ];
 ---
 
@@ -58,8 +59,8 @@ const topics = [
             <strong class="font-semibold text-ink">心血管-肾脏-代谢综合征（CKM 综合征）</strong>是一种全身性疾病——代谢危险因素、慢性肾脏病与心血管系统之间相互影响，导致多器官损害。本站基于权威指南，用通俗语言帮你读懂它。
           </p>
           <div class="flex flex-wrap gap-3">
-            <a href="/overview.html" class="btn btn-primary">开始了解 CKM →</a>
-            <a href="/staging.html" class="btn btn-ghost">查看分期系统</a>
+            <a href={base + "overview/"} class="btn btn-primary">开始了解 CKM →</a>
+            <a href={base + "staging/"} class="btn btn-ghost">查看分期系统</a>
           </div>
 
           <dl class="mt-10 grid grid-cols-3 gap-4 max-w-lg">
@@ -186,7 +187,7 @@ const topics = [
           </div>
         ))}
       </div>
-      <p class="mt-6 text-sm text-muted"><a href="/staging.html" class="text-brand font-medium hover:underline">查看完整分期标准与诊断阈值 →</a></p>
+      <p class="mt-6 text-sm text-muted"><a href={base + "staging/"} class="text-brand font-medium hover:underline">查看完整分期标准与诊断阈值 →</a></p>
     </div>
   </section>
 

@@ -5,6 +5,7 @@ import Cta from '../components/Cta.astro';
 
 const title = '认识 CKM 综合征 · CKM 健康指南';
 const description = '什么是心血管-肾脏-代谢综合征（CKM 综合征）？定义、组分、相关疾病与为什么把它整合管理。';
+const base = import.meta.env.BASE_URL;
 
 const components = [
   { char: '心', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '动脉粥样硬化性心血管疾病 (ASCVD)', desc: '包括急性冠脉综合征、心肌梗死、稳定/不稳定型心绞痛、冠脉或其他动脉血运重建、卒中、TIA、外周动脉疾病 (PAD) 的病史。' },
@@ -86,11 +87,11 @@ const treatments = [
     <div class="grid md:grid-cols-2 gap-4">
       <div class="card p-6">
         <h3 class="font-serif font-bold text-ink mb-2">代谢功能障碍相关脂肪性肝病 (MASLD)</h3>
-        <p class="text-sm text-muted leading-relaxed">以代谢危险因素（如肥胖或 T2D）背景下的<strong>肝脏脂肪变性</strong>为特征，最近被定义用以取代"非酒精性脂肪肝 (NAFLD)"。详见<a href="/special.html" class="text-brand font-medium hover:underline">特殊情况</a>。</p>
+        <p class="text-sm text-muted leading-relaxed">以代谢危险因素（如肥胖或 T2D）背景下的<strong>肝脏脂肪变性</strong>为特征，最近被定义用以取代"非酒精性脂肪肝 (NAFLD)"。详见<a href={base + "special/"} class="text-brand font-medium hover:underline">特殊情况</a>。</p>
       </div>
       <div class="card p-6">
         <h3 class="font-serif font-bold text-ink mb-2">CKM 进展的风险增强因素 (Risk Enhancers)</h3>
-        <p class="text-sm text-muted leading-relaxed">临床（如慢性炎症、不良妊娠结局 APO）、社会或人口学因素，或糖尿病/肾衰竭家族史，与 CKM 进展风险升高相关。详见<a href="/assessment.html" class="text-brand font-medium hover:underline">评估诊断</a>。</p>
+        <p class="text-sm text-muted leading-relaxed">临床（如慢性炎症、不良妊娠结局 APO）、社会或人口学因素，或糖尿病/肾衰竭家族史，与 CKM 进展风险升高相关。详见<a href={base + "assessment/"} class="text-brand font-medium hover:underline">评估诊断</a>。</p>
       </div>
     </div>
   </section>
@@ -187,7 +188,7 @@ const treatments = [
   <Cta
     title="了解你的 CKM 分期"
     description="分期是 CKM 管理的起点——它决定了你的风险水平和应该采取的行动。"
-    linkHref="/staging.html"
+    linkHref={base + "staging/"}
     linkLabel="查看分期系统 →"
     gradient="linear-gradient(135deg,#f0fdfa,#fffbeb)"
   />

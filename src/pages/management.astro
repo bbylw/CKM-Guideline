@@ -6,6 +6,7 @@ import Recommendation from '../components/Recommendation.astro';
 
 const title = '管理原则与生活方式 · CKM 健康指南';
 const description = 'CKM 综合征一般照护原则：多学科协作、Life\'s Essential 8、强化生活方式改变、0-3 期管理。';
+const base = import.meta.env.BASE_URL;
 
 const principles = [
   { color: '#0f766e', label: '非评判', desc: '以<strong>非评判性方法</strong>启动肥胖管理讨论，避免体重污名——经历非评判性讨论的个体更易实现 &gt;10% 减重。' },
@@ -338,7 +339,7 @@ const overlapRows = [
     eyebrow="下一步"
     title="具体的药物与手术"
     description="深入各类药物：减重药、GLP-1、SGLT2i、finerenone 与代谢减重手术。"
-    linkHref="/treatment.html"
+    linkHref={base + "treatment/"}
     linkLabel="查看药物治疗 →"
     gradient="linear-gradient(135deg,#f0fdfa,#fffbeb)"
   />
