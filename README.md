@@ -31,7 +31,8 @@
 - **可访问性**：键盘可达、`prefers-reduced-motion` 适配、语义化 HTML、ARIA 标签
 - **原版 PDF 下载**：资源页内置中英两份 PDF 的下载入口
 - **打印友好**：打印时自动隐藏导航/页脚，避免分页截断
-- **URL 结构保持**：`build.format: 'file'` 确保输出 `.html` 文件，与原 URL 结构完全一致
+- **目录路由**：`build.format: 'directory'` 输出 `overview/index.html`，URL 更简洁
+- **多账号/多仓库自动适配**：`astro.config.mjs` 通过 `GITHUB_REPOSITORY` 环境变量动态推导 `base` 路径，fork 后无需手动改配置
 
 ---
 
