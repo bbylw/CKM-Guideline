@@ -1,29 +1,26 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
-import fs from "node:fs";
-import path from "node:path";
 
-// 动态 base 路径：自动适配 GitHub Pages 多账号/多仓库部署
-// - 若存在 public/CNAME（自定义域名），网站部署在域名根目录，base = "/"
-// - 否则若在 GitHub Actions 环境（GITHUB_REPOSITORY 存在），base = "/仓库名/"
-// - 本地开发默认 base = "/"
+// 动态 base 路径：终极移植方案
+// 完全依赖 GitHub Actions 注入的 GITHUB_REPOSITORY 环境变量（格式：owner/repo）
+// - 本地开发（无 GITHUB_REPOSITORY）：base = "/"
+// - GitHub Actions 构建：
+//   - 仓库名为 *.github.io（用户名根仓库）：base = "/"（域名根路径部署）
+//   - 其他仓库名：base = "/仓库名/"（子路径部署）
+// 如需独立二级域名根部署，使用 *.github.io 仓库即可自动 fallback 到 "/"
 function getBase() {
-  // 自定义域名部署（CNAME 存在）：网站在根路径，无需 base
-  const cnamePath = path.resolve(process.cwd(), "public/CNAME");
-  if (fs.existsSync(cnamePath)) {
-    return "/";
-  }
-  // GitHub Actions 子路径部署：自动推导仓库名
   const repo = process.env.GITHUB_REPOSITORY;
-  if (repo) {
-    const repoName = repo.split("/")[1];
-    // owner.github.io 仓库部署在根路径，无需 base
-    if (repoName && !repoName.endsWith(".github.io")) {
-      return `/${repoName}/`;
-    }
-  }
-  return "/";
+  if (!repo) return "/";
+
+  const repoName = repo.split("/")[1];
+  if (!repoName) return "/";
+
+  // owner.github.io 仓库部署在根路径
+  if (repoName.endsWith(".github.io")) return "/";
+
+  // 普通仓库部署在子路径
+  return `/${repoName}/`;
 }
 
 // https://astro.build/config
