@@ -1,0 +1,244 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+import Recommendation from '../components/Recommendation.astro';
+
+const title = '药物与手术治疗 · CKM 健康指南';
+const description = 'CKM 综合征的药物治疗：GLP-1 类疗法、SGLT2i、RASi、finerenone、减重药物完整对照表，以及代谢减重手术 (MBS)。';
+
+const obesityDrugs = [
+  { name: 'Tirzepatide', dose: '15 mg', placebo: '15%', max: '21%', duration: '72 周', meta: 'SBP −6.5 mmHg; DBP −3 mmHg; A1c −0.4%; TG −19%', side: '恶心、腹泻、便秘', caution: '避免：II 型多发性内分泌肿瘤、胰腺炎病史' },
+  { name: 'Semaglutide', dose: '2.4 mg', placebo: '12%', max: '15%', duration: '68 周', meta: 'SBP −4.5 mmHg; DBP −2 mmHg; A1c −0.3%; TG −16%', side: '恶心、腹泻、呕吐、便秘', caution: '同上' },
+  { name: 'Liraglutide', dose: '3 mg', placebo: '5%', max: '8%', duration: '56 周', meta: 'SBP −3 mmHg; A1c −0.3%; TG −8 mg/dL', side: '心率增加、恶心、腹泻、便秘', caution: '同上' },
+  { name: 'Phentermine/topiramate', dose: '15mg/92mg', placebo: '8%', max: '13%', duration: '56 周', meta: 'SBP −3 mmHg; DBP −1 mmHg; TG −20 mg/dL', side: '心率增加、头晕、口干、便秘', caution: 'GFR &lt; 50 限量；避免 CAD；突然停药有癫痫风险' },
+  { name: 'Naltrexone/bupropion', dose: '32mg/360mg', placebo: '4%', max: '8%', duration: '56 周', meta: 'TG −9 mg/dL; SBP +2 mmHg; T2D 中 A1c −1%', side: '头痛、恶心、便秘', caution: 'GFR &lt; 50 限量；监测 BP；避免 HTN 和 CAD；禁用于有癫痫风险者' },
+  { name: 'Orlistat', dose: '120 mg', placebo: '3%', max: '10%', duration: '52 周', meta: 'SBP −2.5 mmHg; 可能预防 DM 进展', side: '粪便斑点、脂肪泻、便急', caution: '建议补充脂溶性维生素' },
+  { name: 'Phentermine', dose: '15–37.5 mg', placebo: '3%–5%', max: '10%', duration: '28 周', meta: 'SBP −1.3 mmHg; 心率 +5 bpm; TG −10%', side: '口干、失眠、头痛、焦虑、激动、罕见高血压', caution: '避免：未控制 HTN 和 CVD、物质滥用史、青光眼' },
+];
+
+const glp1Recs = [
+  { cor: '2a' as const, loe: 'A', body: '在 CKM 1 期成人（超重/肥胖 [BMI ≥ 27 kg/m²] 无其他代谢风险因素、CKD 或亚临床/临床 CVD）中，将<strong>已证实获益的 GLP-1 类疗法</strong>添加到结构化生活方式干预中，可能有益于促进减重和改善血糖及 CKM 风险状况。', econ: '<strong>经济价值：</strong>高确定性 · 非成本效益（2025 年美国价格）' },
+  { cor: '2b' as const, loe: 'A', body: '在 CKM 1 期成人中，<strong>非 GLP-1 类肥胖药物</strong>可能合理用于促进减重。' },
+];
+
+const t2dRecs = [
+  { cor: '1' as const, loe: 'A', body: '在 CKM 2–3 期伴 T2D 且 CVD 风险增加的成人中，推荐治疗方案应包括 <strong>SGLT2i 或已证实心血管获益的 GLP-1 类疗法</strong>，以降低心血管事件和死亡率。', econ: '<strong>经济价值：</strong>中等确定性 · SGLT2i 具有成本效益；GLP-1 类不具有成本效益（2025 年美国药价）' },
+  { cor: '2a' as const, loe: 'A', body: '在 HbA1c 高于个体化目标 0.5%–1% 的成人中，在联合心血管保护性降糖药基础上使用<strong>二甲双胍</strong>以达到血糖目标是合理的。' },
+  { cor: '2b' as const, loe: 'B-NR', body: '在 CKM 2–3 期伴 T2D 且 CVD 风险增加，或伴有多个 CKM 危险因素的成人中，可考虑 <strong>GLP-1 + SGLT2i 联合治疗</strong>以进一步降低心血管事件风险。' },
+];
+
+const sglt2iSideEffects = [
+  'DKA 风险（胰岛素缺乏个体）',
+  '生殖器真菌感染',
+  '会阴坏死性筋膜炎（Fournier 坏疽）',
+  '血管内容量消耗',
+];
+
+const glp1SideEffects = [
+  '胃肠道（恶心、呕吐、腹泻、便秘）',
+  '甲状腺 C 细胞肿瘤',
+  '胰腺炎',
+  '急性胆囊疾病',
+  '肠梗阻',
+  '口服药物吸收影响',
+  '糖尿病视网膜病变并发症',
+  'NAION（非动脉炎性前部缺血性视神经病变）',
+  '急性肾损伤',
+  '误吸风险（全身麻醉/深度镇静前）',
+];
+
+const mbsRecs = [
+  { cor: '2a' as const, loe: 'A', body: '在 CKM 1–3 期伴肥胖且对生活方式改变（有或无辅助减重药物）无足够减重反应的患者中，<strong>MBS 可能有益</strong>于促进减重和缓解 CKM 综合征进展。', econ: '<strong>经济价值：</strong>高确定性 · 成本效益' },
+  { cor: '2a' as const, loe: 'B-NR', body: '在已行 MBS 且体重显著回升（≥ 25% 或更多已减体重）的患者中，<strong>GLP-1 类疗法</strong>可用于促进减重和管理合并症。' },
+];
+
+const mbsCards = [
+  { chip: '效果', desc: 'RYGB 平均多余体重减轻 <strong>56%</strong>，大于 LSG 的 <strong>46%</strong>，差异持续 10 年。MBS 对所有 CKM 风险因素以及 OSA 和 MASLD 有有利影响。' },
+  { chip: '指征', desc: 'BMI ≥ 35 kg/m² 有效（无论合并症）；T2D 中 BMI 阈值 <strong>30 kg/m²</strong> 时可能有益；亚裔患者 BMI &lt; 30 kg/m² 也可受益。' },
+  { chip: '缓解', desc: '<strong>STAMPEDE</strong> 和 <strong>ARMMS-T2D</strong> 试验证明 MBS 与 T2D 缓解率高于医疗/生活方式治疗相关。但 <strong>10% RYGB</strong> 和 <strong>30% LSG</strong> 患者减重不足。' },
+];
+
+const ckdRecs = [
+  { cor: '1' as const, loe: 'B-R', body: '在 CKD + T2D，或 CKD 无 T2D 但 UACR ≥ 30 mg/g，且 eGFR ≥ 30 mL/min/1.73m² 的成人中，推荐使用最大耐受剂量的 <strong>RASi (ACEi 或 ARB)</strong>，以降低肾功能丧失和 CVD 风险。' },
+  { cor: '1' as const, loe: 'A', body: '在 CKD + T2D，或 CKD 无 T2D 但 UACR ≥ 200 mg/g，且 eGFR ≥ 20 mL/min/1.73m² 的成人中，推荐使用 <strong>SGLT2i</strong>，以降低肾功能丧失、HF 住院和 CVD 死亡风险。' },
+  { cor: '2a' as const, loe: 'B-R', body: '在 CKD 且无 T2D 但 UACR 为 30–199 mg/g 的成人中，可考虑使用 <strong>SGLT2i</strong>，以降低肾功能丧失、HF 住院和 CVD 死亡风险。', econ: '<strong>经济价值：</strong>高确定性 · 具有成本效益' },
+  { cor: '1' as const, loe: 'A', body: '在 CKD + T2D 且 UACR ≥ 30 mg/g（尽管已用最大耐受剂量 ACEi/ARB 和 SGLT2i）且 eGFR ≥ 25 mL/min/1.73m² 的成人中，推荐加用<strong>非甾体 MRA (nsMRA, finerenone)</strong>，以降低肾功能丧失、肾衰竭和 CVD 风险。', econ: '<strong>经济价值：</strong>中等确定性 · 不具有成本效益（finerenone）' },
+  { cor: '1' as const, loe: 'B-R', body: '在 CKD + T2D 且 UACR ≥ 100 mg/g（尽管已用最大耐受剂量 ACEi/ARB 和 SGLT2i）的成人中，推荐使用<strong>已证实肾脏和心血管获益的 GLP-1 类疗法</strong>，以降低肾功能丧失、肾衰竭和 CVD 风险。' },
+];
+
+const albuminuriaSteps = [
+  { num: '1', desc: '<strong class="text-ink">UACR ≥ 30 mg/g：</strong>利用 RASi、SGLT2i 和 finerenone（后者在 T2D 中）作为一线。' },
+  { num: '2', desc: '<strong class="text-ink">UACR ≥ 100 mg/g：</strong>在 T2D 中利用 GLP-1 类治疗作为额外治疗。' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="第 5.4–5.5 节 · 药物与手术"
+    title="药物与手术治疗"
+    description="从减重药物到肾脏保护药，CKM 管理的一大特征是一类药物带来多器官获益。本章详解各类药物的作用、减重效果、不良反应与减重手术。"
+    breadcrumb="药物治疗"
+  />
+
+  {/* 减重药物总表 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">已批准肥胖药物</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">减重药物完整对照</h2>
+      <p class="text-muted leading-relaxed">下表汇总指南中已批准肥胖药物的体重与代谢风险因素平均变化、常见副作用与注意事项。数据来自 RCT 中最大批准或耐受剂量。</p>
+    </div>
+
+    <div class="table-wrap"><table class="tbl">
+      <thead><tr><th>药物</th><th>安慰剂校正减重</th><th>最大减重</th><th>试验时长</th><th>代谢影响</th><th>常见副作用</th><th>注意事项</th></tr></thead>
+      <tbody>
+        {obesityDrugs.map((row) => (
+          <tr>
+            <td><strong class="text-ink">{row.name}</strong><br><span class="text-xs text-subtle">{row.dose}</span></td>
+            <td class="num">{row.placebo}</td>
+            <td class="num">{row.max}</td>
+            <td class="num">{row.duration}</td>
+            <td class="text-xs" set:html={row.meta}></td>
+            <td class="text-xs">{row.side}</td>
+            <td class="text-xs" set:html={row.caution}></td>
+          </tr>
+        ))}
+      </tbody>
+    </table></div>
+    <p class="text-xs text-subtle mt-3">‡ Orlistat 减重在第 1 年末达峰，第 2 年体重维持期间体重部分回升。</p>
+
+    <div class="callout callout-info mt-6 max-w-3xl">
+      <p class="callout-title">💡 关键洞察</p>
+      <p class="text-sm"><strong>SURMOUNT-5 试验</strong>证明 tirzepatide 在总体减重和减重维持方面优于 semaglutide。目前只有 <strong>1 种口服 GLP-1 类疗法（semaglutide）</strong>可用，口服制剂在促进减重方面略低于皮下制剂。</p>
+    </div>
+  </section>
+
+  {/* GLP-1 推荐意见 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">第 5.4.3 节 · 肥胖药物治疗</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">GLP-1 类疗法的推荐</h2>
+        <p class="text-muted leading-relaxed">GLP-1 类疗法包括更广泛的 GLP-1 受体激动剂类（含 GLP-1/GIP 受体激动剂 tirzepatide）。本节针对无其他 CKM 状况的超重/肥胖者。</p>
+      </div>
+      <div class="space-y-4">
+        {glp1Recs.map((rec) => (
+          <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} econ={rec.econ} />
+        ))}
+      </div>
+      <div class="callout callout-warn mt-6 max-w-3xl">
+        <p class="callout-title">⚠️ 成本效益提示</p>
+        <p class="text-sm">基于模型研究：在无糖尿病、高血压或已确立 CVD 等合并症的肥胖亚组中，semaglutide 的 ICER（美国净价 $8,412）为 <strong>$1,012,000/QALY</strong>，tirzepatide（净价 $6,236）为 <strong>$449,000/QALY</strong>——按当前美国价格均不达常规成本效益阈值。</p>
+      </div>
+    </div>
+  </section>
+
+  {/* SGLT2i / GLP-1 在 T2D */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">第 5.5.1 节 · T2D 中的降糖药</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">心血管保护性降糖药物</h2>
+      <p class="text-muted leading-relaxed">对于 CKM 2–3 期伴 T2D 且 CVD 风险增加（10 年 PREVENT-CVD ≥ 7.5%）的成人，推荐使用 SGLT2i 或已证实心血管获益的 GLP-1 类疗法。</p>
+    </div>
+
+    <div class="space-y-4 mb-8">
+      {t2dRecs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} econ={rec.econ} />
+      ))}
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 mt-8">
+      <div>
+        <h3 class="font-serif font-bold text-ink mb-3">SGLT2i 不良反应</h3>
+        <div class="card p-5">
+          <ul class="text-sm text-muted space-y-2">
+            {sglt2iSideEffects.map((item) => (
+              <li class="flex gap-2"><span style="color:#be123c">▸</span> {item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-serif font-bold text-ink mb-3">GLP-1 类疗法不良反应</h3>
+        <div class="card p-5">
+          <ul class="text-sm text-muted space-y-1.5">
+            {glp1SideEffects.map((item) => (
+              <li class="flex gap-2"><span style="color:#be123c">▸</span> {item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* 代谢减重手术 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">第 5.4.4 节 · 代谢减重手术 (MBS)</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">代谢减重手术</h2>
+        <p class="text-muted leading-relaxed">MBS 已证明其超越减重的临床价值，包括合并症减少和长期死亡率降低。<strong>RYGB（Roux-en-Y 胃旁路）</strong>和<strong>LSG（腹腔镜袖状胃切除）</strong>占所有手术的 90%。</p>
+      </div>
+
+      <div class="space-y-4 mb-8">
+        {mbsRecs.map((rec) => (
+          <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} econ={rec.econ} />
+        ))}
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-4 mb-6">
+        {mbsCards.map((item) => (
+          <div class="card p-5">
+            <span class="chip mb-3">{item.chip}</span>
+            <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+          </div>
+        ))}
+      </div>
+      <div class="callout callout-info max-w-3xl">
+        <p class="callout-title">📊 MBS vs 药物的长期优势</p>
+        <p class="text-sm">MBS 至今在促进长期减重和降低心血管风险、发病率、死亡率方面总体上优于药物，尽管随着 GLP-1 获益证据的积累这种差距可能改变。术后 12–18 个月从最低点开始的一些体重反弹是常见的，GLP-1 类疗法已被证明可缓解术后体重反弹。</p>
+      </div>
+    </div>
+  </section>
+
+  {/* CKD 药物 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">第 5.5.4 节 · CKD 肾脏保护药</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">CKD 管理的肾脏保护药物</h2>
+      <p class="text-muted leading-relaxed">CKM 2–3 期伴 CKD 患者的总体目标是降低肾功能丧失和 MACE 风险。<strong>白蛋白尿是指导 CKD 管理的关键标志物</strong>。</p>
+    </div>
+
+    <div class="space-y-4 mb-8">
+      {ckdRecs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} econ={rec.econ} />
+      ))}
+    </div>
+
+    <div class="card p-6 mb-6" style="background:#fffbeb;border-left:4px solid #b45309">
+      <h3 class="font-serif font-bold text-ink mb-3">白蛋白尿指导的治疗阶梯</h3>
+      <div class="space-y-3">
+        {albuminuriaSteps.map((step) => (
+          <div class="flex items-start gap-3">
+            <span class="tri-dot flex-shrink-0" style="background:#b45309;color:#fff;width:30px;height:30px;font-size:0.8rem">{step.num}</span>
+            <p class="text-sm text-muted" set:html={step.desc}></p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="callout callout-note max-w-3xl">
+      <p class="callout-title">🔬 关键试验证据</p>
+      <p class="text-sm"><strong>RENAAL</strong>（losartan）降低 T2D 和白蛋白尿患者主要复合肾脏终点并降低首次 HF 住院。SGLT2i：<strong>EMPA-KIDNEY、DAPA-CKD、CREDENCE</strong> 等证明降低 CKD 进展、肾衰竭、CV 死亡和全因死亡率。finerenone：<strong>FIDELIO-DKD、FIGARO-DKD</strong>。GLP-1：<strong>FLOW</strong> 试验证明 semaglutide 降低肾功能丧失和心血管事件。联合 SGLT2i + finerenone 在白蛋白尿方面有相加获益。</p>
+    </div>
+  </section>
+
+  <Cta
+    eyebrow="下一步"
+    title="已确诊心血管病怎么办？"
+    description="4 期的 ASCVD、心衰、房颤与晚期 CKD 管理——二级预防策略。"
+    linkHref="/cvd.html"
+    linkLabel="查看心血管管理 →"
+    gradient="linear-gradient(135deg,#fff1f2,#fffbeb)"
+  />
+</BaseLayout>

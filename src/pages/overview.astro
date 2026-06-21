@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+
+const title = '认识 CKM 综合征 · CKM 健康指南';
+const description = '什么是心血管-肾脏-代谢综合征（CKM 综合征）？定义、组分、相关疾病与为什么把它整合管理。';
+
+const components = [
+  { char: '心', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '动脉粥样硬化性心血管疾病 (ASCVD)', desc: '包括急性冠脉综合征、心肌梗死、稳定/不稳定型心绞痛、冠脉或其他动脉血运重建、卒中、TIA、外周动脉疾病 (PAD) 的病史。' },
+  { char: '心', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '临床心力衰竭 (HF)', desc: '包括三种类型：<strong>HFrEF</strong>（射血分数降低型）、<strong>HFmrEF</strong>（轻度降低型）、<strong>HFpEF</strong>（保留型），伴临床症状。' },
+  { char: '代', bg: '#f0fdfa', color: '#0d9488', border: '#99f6e4', title: '2 型糖尿病 (T2D)', desc: '以<strong>胰岛素抵抗</strong>和<strong>胰岛素分泌进行性损害</strong>导致高血糖为特征的复杂代谢障碍。' },
+  { char: '代', bg: '#f0fdfa', color: '#0d9488', border: '#99f6e4', title: '肥胖 (Obesity)', desc: '对健康构成风险的多余体脂，诊断标准 <strong>BMI ≥ 30 kg/m²</strong>。<strong>腹型肥胖</strong>：女性腰围 ≥ 88 cm 或男性 ≥ 102 cm。' },
+  { char: '肾', bg: '#fffbeb', color: '#b45309', border: '#fde68a', title: '慢性肾脏病 (CKD)', desc: '在至少 3 个月间隔的 2 次测量中，<strong>eGFR 持续 &lt; 60 mL/min/1.73m²</strong> 或<strong>白蛋白尿 (UACR ≥ 30 mg/g)</strong>。' },
+  { char: '肾', bg: '#fffbeb', color: '#b45309', border: '#fde68a', title: '肾衰竭 (Kidney Failure)', desc: 'eGFR 慢性 <strong>&lt; 15 mL/min/1.73m²</strong>（CKD 5 期）或长期需要肾脏替代治疗（透析），即"终末期肾病"。' },
+  { char: '心', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '高血压 (Hypertension)', desc: '基于至少 2 次就诊、每次至少 2 次读数平均后，<strong>收缩压 ≥ 130 mm Hg</strong> 或<strong>舒张压 ≥ 80 mm Hg</strong>。' },
+  { char: '代', bg: '#f0fdfa', color: '#0d9488', border: '#99f6e4', title: '糖尿病前期 (Prediabetes)', desc: '空腹血糖 <strong>100–125 mg/dL</strong>、糖耐量受损（75g OGTT 2 小时 140–199 mg/dL）或 <strong>HbA1c 5.7%–6.4%</strong>。' },
+  { char: '心', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '早期心衰 (Pre-HF)', desc: '存在结构或功能异常、充盈压升高或心肌生物标志物升高的<strong>亚临床心肌病</strong>，但<strong>无临床 HF 症状</strong>。是 3 期的诊断依据之一。' },
+];
+
+const treatments = [
+  { chip: '药物', title: 'GLP-1 类疗法', desc: '模拟或增强肠促胰素 GLP-1 活性的药物，可单一或与 GIP 双激动剂联合，在心血管结局试验中具有降低风险证据。代表药：<strong>semaglutide、tirzepatide、liraglutide</strong>。' },
+  { chip: '药物', title: 'RAS 抑制剂 (RASi)', desc: '抑制肾素-血管紧张素系统的药物，包括 <strong>ACEi</strong> 和 <strong>ARB</strong>，用于降压、降低蛋白尿、预防 CVD 和肾脏疾病进展。' },
+  { chip: '药物', title: 'RAAS 抑制剂 (RAASi)', desc: '除 RASi（ACEi、ARB）外，还包括抑制醛固酮系统的<strong>盐皮质激素受体拮抗剂 (MRA)</strong>。非甾体 MRA 代表药：<strong>finerenone</strong>。' },
+  { chip: '手术', title: '代谢减重手术 (MBS)', desc: '一组外科手术（如<strong>胃旁路 (RYGB)</strong>、<strong>袖状胃切除术 (LSG)</strong>），通过改变胃肠道解剖和生理改变能量平衡以诱导减重、改善代谢健康。占所有减重手术 90%。' },
+  { chip: '生活方式', title: '生活方式管理 (Lifestyle Management)', desc: '评估个体基础行为习惯，并就健康生活方式改变提供咨询和支持：包括<strong>心脏健康饮食、定期体力活动、避免任何尼古丁产品、健康睡眠习惯、保持健康体重</strong>。涵盖 AHA <strong>Life\'s Essential 8</strong> 的生活方式要素以及压力管理。是所有 CKM 分期管理的<strong>第一基石</strong>。', span: true },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="第 1 章 · 定义与分类"
+    title="认识心血管-肾脏-代谢综合征"
+    description="心脏、肾脏与代谢健康长期被分开看待，但它们其实是一条相互联系的疾病链。CKM 综合征把它们整合到一个统一的预防与管理框架里。"
+    breadcrumb="认识 CKM"
+  />
+
+  {/* 简化定义 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="card p-7" style="border-left:5px solid #0f766e">
+        <p class="eyebrow mb-3">简化定义</p>
+        <p class="font-serif text-xl text-ink leading-relaxed">CKM 综合征是一种<strong>由于心脏、肾脏、糖尿病和肥胖之间的相互联系</strong>而导致的健康障碍，导致不良健康结局。</p>
+      </div>
+      <div class="card p-7" style="border-left:5px solid #be123c">
+        <p class="eyebrow mb-3" style="color:#be123c">完整定义</p>
+        <p class="text-muted leading-relaxed text-[0.95rem]">CKM 综合征是一种<strong class="text-ink">全身性疾病</strong>，其特征在于代谢危险因素、CKD 和心血管系统之间的<strong class="text-ink">病理生理相互作用</strong>，导致多器官功能障碍和高比率的心血管不良结局。既包括因代谢危险因素、CKD 或两者并存而具有 CVD 风险的人群，也包括已存在与代谢危险因素相关或受其影响的 CKD 或 CVD 个体。</p>
+      </div>
+    </div>
+
+    <div class="callout callout-info mt-6 max-w-3xl">
+      <p class="callout-title">💡 一句话理解</p>
+      <p>代谢问题（肥胖、糖尿病）先损伤肾脏和血管，肾脏与心血管又互相加重损害——所以指南主张<strong>用一类药物治疗多个器官</strong>（"多器官获益"），并<strong>多学科协作</strong>。</p>
+    </div>
+  </section>
+
+  {/* 组分定义 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-9">
+        <p class="eyebrow mb-3">CKM 综合征的组分</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">组成 CKM 的关键疾病</h2>
+        <p class="text-muted leading-relaxed">下列疾病与状态共同构成 CKM 综合征。它们的诊断标准与阈值，是后续分期与风险评估的基础。</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {components.map((item) => (
+          <div class="card p-5">
+            <div class="flex items-center gap-2.5 mb-2.5">
+              <span class="tri-dot" style={`background:${item.bg};color:${item.color};border:1px solid ${item.border};width:32px;height:32px;font-size:0.85rem`}>{item.char}</span>
+              <h3 class="font-serif font-bold text-ink">{item.title}</h3>
+            </div>
+            <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 其他相关疾病 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="max-w-2xl mb-9">
+      <p class="eyebrow mb-3">CKM 人群中常见的其他疾病</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">需要一并关注的相关状况</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="card p-6">
+        <h3 class="font-serif font-bold text-ink mb-2">代谢功能障碍相关脂肪性肝病 (MASLD)</h3>
+        <p class="text-sm text-muted leading-relaxed">以代谢危险因素（如肥胖或 T2D）背景下的<strong>肝脏脂肪变性</strong>为特征，最近被定义用以取代"非酒精性脂肪肝 (NAFLD)"。详见<a href="/special.html" class="text-brand font-medium hover:underline">特殊情况</a>。</p>
+      </div>
+      <div class="card p-6">
+        <h3 class="font-serif font-bold text-ink mb-2">CKM 进展的风险增强因素 (Risk Enhancers)</h3>
+        <p class="text-sm text-muted leading-relaxed">临床（如慢性炎症、不良妊娠结局 APO）、社会或人口学因素，或糖尿病/肾衰竭家族史，与 CKM 进展风险升高相关。详见<a href="/assessment.html" class="text-brand font-medium hover:underline">评估诊断</a>。</p>
+      </div>
+    </div>
+  </section>
+
+  {/* 治疗相关定义 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-9">
+        <p class="eyebrow mb-3">治疗手段</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">贯穿全指南的几类关键治疗</h2>
+        <p class="text-muted leading-relaxed">这些治疗方式会在后续各章节反复出现，先在这里建立基本概念。</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {treatments.map((item) => (
+          <div class={`card p-5 ${item.span ? 'md:col-span-2' : ''}`}>
+            <span class="chip mb-3">{item.chip}</span>
+            <h3 class="font-serif font-bold text-ink mb-1.5">{item.title}</h3>
+            <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 为什么整合 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">为什么需要整合</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">不是三个病，而是一个综合征</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="card p-6">
+        <p class="font-serif text-4xl font-bold mb-3" style="color:#0f766e">01</p>
+        <h3 class="font-serif font-bold text-ink mb-2">病理生理相互联系</h3>
+        <p class="text-sm text-muted leading-relaxed">代谢异常损伤血管内皮与肾脏微循环；肾功能下降加重血压与容量负荷；心衰又进一步损害肾脏——形成恶性循环。</p>
+      </div>
+      <div class="card p-6">
+        <p class="font-serif text-4xl font-bold mb-3" style="color:#be123c">02</p>
+        <h3 class="font-serif font-bold text-ink mb-2">风险协同放大</h3>
+        <p class="text-sm text-muted leading-relaxed">合并存在时，CVD 与肾衰竭风险并非简单相加，而是协同放大。CKM 分期越高，KDIGO CKD 风险等级也越高。</p>
+      </div>
+      <div class="card p-6">
+        <p class="font-serif text-4xl font-bold mb-3" style="color:#b45309">03</p>
+        <h3 class="font-serif font-bold text-ink mb-2">一类药物，多个器官获益</h3>
+        <p class="text-sm text-muted leading-relaxed">SGLT2i、GLP-1 类、RASi、finerenone 等同时带来心血管与肾脏获益——这正是 CKM 框架的临床价值所在。</p>
+      </div>
+    </div>
+
+    <div class="callout callout-note mt-8 max-w-3xl">
+      <p class="callout-title">📖 指南定位</p>
+      <p>本指南扩展了 2013 年 AHA/ACC/TOS 成人超重与肥胖管理指南，纳入 CKM 健康概念、CKD、ASCVD、HF 等多领域内容，是面向心脏病学家、内分泌学家、肾脏病学家以及初级保健与专科临床医生的<strong>活的工作文件</strong>。</p>
+    </div>
+  </section>
+
+  {/* COR/LOE 说明 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">阅读提示</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">如何读懂推荐意见的等级</h2>
+        <p class="text-muted leading-relaxed">本站会标注指南推荐意见的<strong>推荐类别 (COR)</strong>与<strong>证据级别 (LOE)</strong>，帮助你理解推荐的强度与证据质量。</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="font-serif font-bold text-ink mb-3">推荐类别 (COR)</h3>
+          <div class="table-wrap"><table class="tbl">
+            <thead><tr><th>COR</th><th>含义</th></tr></thead>
+            <tbody>
+              <tr><td><span class="cor-badge cor-1">1</span></td><td>推荐 » 益处（强推荐）</td></tr>
+              <tr><td><span class="cor-badge cor-2a">2a</span></td><td>推荐 » 益处（中等）</td></tr>
+              <tr><td><span class="cor-badge cor-2b">2b</span></td><td>益处 ≥ 风险（弱）</td></tr>
+              <tr><td><span class="cor-badge cor-3">3: 无益处</span></td><td>风险 = 益处</td></tr>
+              <tr><td><span class="cor-badge cor-3">3: 有害</span></td><td>风险 &gt; 益处</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div>
+          <h3 class="font-serif font-bold text-ink mb-3">证据级别 (LOE)</h3>
+          <div class="table-wrap"><table class="tbl">
+            <thead><tr><th>LOE</th><th>含义</th></tr></thead>
+            <tbody>
+              <tr><td><span class="loe-badge">A</span></td><td>来自 ≥1 项 RCT 或高质量 meta 分析</td></tr>
+              <tr><td><span class="loe-badge">B-R</span></td><td>来自中等质量 RCT</td></tr>
+              <tr><td><span class="loe-badge">B-NR</span></td><td>来自非随机观察研究</td></tr>
+              <tr><td><span class="loe-badge">C-LD</span></td><td>来自有限数据研究</td></tr>
+              <tr><td><span class="loe-badge">C-EO</span></td><td>专家共识 / 临床经验</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="了解你的 CKM 分期"
+    description="分期是 CKM 管理的起点——它决定了你的风险水平和应该采取的行动。"
+    linkHref="/staging.html"
+    linkLabel="查看分期系统 →"
+    gradient="linear-gradient(135deg,#f0fdfa,#fffbeb)"
+  />
+</BaseLayout>

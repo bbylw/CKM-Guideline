@@ -1,0 +1,269 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+import Recommendation from '../components/Recommendation.astro';
+
+const title = '评估与诊断 · CKM 健康指南';
+const description = 'CKM 综合征的诊断方法、PREVENT 心血管风险公式、风险增强因素与社会健康决定因素 (SDOH) 评估。';
+
+const diagnosticRecs = [
+  { cor: '1' as const, loe: 'B-NR', body: '在儿童青少年（&lt; 18 岁）和成人（≥ 18 岁）中，应通过评估<strong>代谢风险因素、肾功能（计算 eGFR，CKM 2 期及以上增加 UACR）和 CVD 状态</strong>进行 CKM 分期，以支持预防进展、促进回归并按绝对风险个体化治疗。' },
+  { cor: '2a' as const, loe: 'B-NR', body: '在 10 年 ASCVD 风险为中等（PREVENT-ASCVD 5%–&lt;10%）或部分边界风险（3%–&lt;5%）且决策仍不确定的成人中，使用<strong>冠状动脉钙化评分 (CAC)</strong> 评估亚临床冠脉粥样硬化可能有助于指导最佳 CVD 预防。' },
+  { cor: '2a' as const, loe: 'B-NR', body: '在 10 年 HF 预测风险升高（PREVENT-HF ≥ 5%）的成人中，使用<strong>心肌生物标志物</strong>（BNP、NT-proBNP、高敏心肌肌钙蛋白 hs-cTn）评估 pre-HF 可能有助于指导额外检查与协同照护。' },
+];
+
+const biomarkerCards = [
+  { char: '钙', bg: '#f0fdfa', color: '#0d9488', border: '#99f6e4', title: '冠状动脉钙化 (CAC) 评分', desc: 'MESA 研究显示 CAC 与 10 年 ASCVD 风险强相关，独立于标准风险因素。<strong>CAC ≥ 100</strong>或 ≥ 第 75 百分位应加强治疗；<strong>CAC = 0</strong>可考虑延迟或避免他汀治疗（边界-中间风险且决策不确定时）。' },
+  { char: '标', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '心肌生物标志物', desc: 'STOP-HF 试验显示 BNP 联合超声心动图与协同照护可降低左室功能障碍或 HF 风险。社区队列中心肌生物标志物升高与 3%–5% 的 10 年 HF 发病风险相关。' },
+];
+
+const longitudinalRows = [
+  { stage: '0 期', bmi: '每年', lipid: '每 5 年', glucose: '每 5 年', bp: '每年', egfr: '每 5 年', uacr: '—', muted: true },
+  { stage: '1 期', bmi: '每年', lipid: '每 2–3 年', glucose: '每 2–3 年', bp: '每年', egfr: '每 2–3 年', uacr: '—', muted: true },
+  { stage: '2 期及以上', bmi: '每年', lipid: '每年', glucose: '每年', bp: '每年', egfr: '每年', uacr: '每年', muted: false },
+];
+
+const preventCards = [
+  { title: '基础公式纳入', desc: '传统 CVD 风险因素 + 新纳入 CKM 相关预测因子：<strong>BMI、eGFR</strong>。' },
+  { title: '附加模型纳入', desc: '<strong>UACR、HbA1c</strong> 与<strong>社会剥夺指数 (Social Deprivation Index)</strong>。' },
+  { title: '外部验证', desc: '在美国 <strong>3,330,085 名成人</strong>中验证，良好至优秀辨别力（女性 C 统计量 0.79，男性 0.76）。' },
+];
+
+const preventRecs = [
+  { cor: '1' as const, loe: 'B-NR', body: '在 30–79 岁无 CVD 的成人中，应使用 <strong>PREVENT 公式</strong>计算 10 年 CVD 风险（及其 ASCVD 和 HF 组成部分），以量化 CKM 相关风险并指导预防策略。' },
+  { cor: '2a' as const, loe: 'B-NR', body: '在 30–59 岁无 CVD 的成人中，使用 PREVENT 公式计算 <strong>30 年 CVD 风险</strong>可能有助于量化风险并指导共同决策，特别是生活方式咨询。' },
+];
+
+const preventThresholds = [
+  { formula: 'PREVENT-CVD', outcome: '总 CVD（ASCVD+HF）', threshold: '10 年 ≥ 20%', app: '定义 <strong>CKM 3 期</strong>（亚临床 CVD 风险等效）' },
+  { formula: 'PREVENT-CVD', outcome: '总 CVD', threshold: '10 年 ≥ 7.5%', app: '优先启动 GLP-1 或 SGLT2i 治疗' },
+  { formula: 'PREVENT-CVD', outcome: '总 CVD', threshold: '10 年 ≥ 7.5%', app: '1 期高血压强化降压治疗启动' },
+  { formula: 'PREVENT-ASCVD', outcome: 'ASCVD', threshold: '10 年 3%–&lt;10%', app: '评估亚临床动脉粥样硬化（CAC）' },
+  { formula: 'PREVENT-ASCVD', outcome: 'ASCVD', threshold: '10 年 ≥ 5%', app: '推荐启动降脂治疗' },
+  { formula: 'PREVENT-ASCVD', outcome: 'ASCVD', threshold: '10 年 3%–&lt;5%', app: '评估风险增强因素后考虑降脂' },
+  { formula: 'PREVENT-ASCVD', outcome: 'ASCVD', threshold: '30 年 ≥ 10%', app: '考虑启动降脂治疗' },
+  { formula: 'PREVENT-HF', outcome: 'HF', threshold: '10 年 ≥ 5%', app: '评估亚临床 HF 和协同照护' },
+];
+
+const enhancerCards = [
+  { title: '个人病史', desc: '慢性炎症或自身免疫性疾病（类风湿关节炎、SLE、HIV/AIDS）；睡眠障碍（OSA）；心理社会健康不佳（抑郁、焦虑）；性别特异性因素（早绝经 &lt; 40 岁、不良妊娠结局、多囊卵巢综合征、勃起功能障碍）。' },
+  { title: '社会健康决定因素 (SDOH)', desc: '低社会经济地位；不良个体和场所 SDOH 负担增加。' },
+  { title: '炎症标志物', desc: '高敏 C 反应蛋白升高（<span class="tnum">≥ 2.0 mg/L</span>，如测量）。' },
+  { title: '家族史', desc: '糖尿病家族史；肾衰竭家族史。' },
+  { title: '人口学', desc: '高风险人群（南亚裔、美洲印第安人、太平洋岛民等自报种族/族裔）。' },
+];
+
+const sdohRecs = [
+  { cor: '1' as const, loe: 'B-NR', body: '在伴 CKM 综合征或有 CKM 风险的成人（≥ 18 岁）中，推荐使用经验证的 SDOH 评估工具进行<strong>常规筛查</strong>，以指导以患者为中心的照护。' },
+  { cor: '1' as const, loe: 'B-NR', body: '在伴 CKM 综合征或有 CKM 风险的儿童青少年患者中，推荐使用经验证的<strong>照护者 SDOH 评估工具</strong>对其照护者进行常规筛查。' },
+];
+
+const adultSdohTools = [
+  { tool: 'Health Leads', content: '暴力暴露、经济压力、食物不安全、住房不稳定、交通、公用事业' },
+  { tool: 'CMS AHC HRSN', content: '食物不安全、住房不稳定、人际安全、交通、公用事业援助' },
+  { tool: 'AAFP EveryONE', content: '育儿、就业、教育、财务、食物、住房、人际安全、交通、公用事业' },
+  { tool: 'PRAPARE', content: '家庭、金钱资源、社会情感健康、人口学' },
+  { tool: 'OCHIN', content: '教育、暴力、经济压力、食物、健康行为、住房、心理健康' },
+  { tool: 'Health Begins Upstream', content: '经济稳定、教育、食物、住房、社会社区环境、邻里环境、健康行为' },
+];
+
+const caregiverTools = [
+  { name: 'Health Begins Upstream Risks', desc: '' },
+  { name: 'SEEK PSQ', desc: 'Safe Environment for Every Kid Parent Screening Questionnaire' },
+  { name: 'IHELLP', desc: 'Income, Housing, Education, Legal Status, Literacy, Personal Safety' },
+  { name: 'WECARE', desc: 'Well Child Care, Evaluation, Community Resources, Advocacy, Referral, Education' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="第 3–4 章 · 评估与风险"
+    title="评估、诊断与风险量化"
+    description="分期需要评估代谢健康、肾功能和心血管风险——三者合一，才能识别常被忽视的无症状 CKM 状况，并指导治疗强度。"
+    breadcrumb="评估诊断"
+  />
+
+  {/* 诊断方法 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">诊断方法</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">CKM 分期的诊断路径</h2>
+      <p class="text-muted leading-relaxed">分期应在患者临床稳定时进行，以确保基线准确与随访可比。由于腹型脂肪的核心作用，人体测量应<strong>同时测量 BMI 与腰围</strong>。CKM 2–4 期应同时测量 UACR 和 eGFR。</p>
+    </div>
+
+    <div class="space-y-4">
+      {diagnosticRecs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} />
+      ))}
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 mt-8">
+      {biomarkerCards.map((item) => (
+        <div class="card p-6">
+          <h3 class="font-serif font-bold text-ink mb-2 flex items-center gap-2">
+            <span class="tri-dot" style={`background:${item.bg};color:${item.color};border:1px solid ${item.border};width:30px;height:30px;font-size:0.8rem`}>{item.char}</span>
+            {item.title}
+          </h3>
+          <p class="text-sm text-muted leading-relaxed mb-3" set:html={item.desc}></p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* 纵向评估 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">纵向随访</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">不同分期的监测频率</h2>
+        <p class="text-muted leading-relaxed">及时识别 CKM 风险因素变化是预防分期进展的关键。各分期推荐评估频率如下：</p>
+      </div>
+      <div class="table-wrap"><table class="tbl">
+        <thead><tr><th>分期</th><th>BMI / 腰围</th><th>血脂</th><th>血糖</th><th>血压</th><th>肾功能 (eGFR)</th><th>UACR</th></tr></thead>
+        <tbody>
+          {longitudinalRows.map((row) => (
+            <tr>
+              <td><strong>{row.stage}</strong></td>
+              <td class="num">{row.bmi}</td>
+              <td class="num">{row.lipid}</td>
+              <td class="num">{row.glucose}</td>
+              <td class="num">{row.bp}</td>
+              <td class="num">{row.egfr}</td>
+              <td class={row.muted ? 'text-subtle' : 'num'}>{row.uacr}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table></div>
+      <p class="text-xs text-subtle mt-3">所有评估均为 COR 1, B-NR 推荐。CKM 2 期及以上同时测量 eGFR 与 UACR 以全面表征 CKD 与 CVD 风险。</p>
+    </div>
+  </section>
+
+  {/* PREVENT 公式 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">核心工具</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">PREVENT 风险公式</h2>
+      <p class="text-muted leading-relaxed"><strong>PREVENT</strong>（Predicting Risk of Cardiovascular Disease EVENTs）公式是 CKM 风险量化的核心。它估算 10 年和 30 年的<strong>动脉粥样硬化性 CVD (ASCVD)</strong>、<strong>心力衰竭 (HF)</strong>和<strong>总 CVD</strong>风险。</p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-4 mb-8">
+      {preventCards.map((item) => (
+        <div class="card p-5">
+          <h3 class="font-serif font-bold text-ink mb-2 text-sm">{item.title}</h3>
+          <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+        </div>
+      ))}
+    </div>
+
+    <div class="space-y-4 mb-8">
+      {preventRecs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} />
+      ))}
+    </div>
+
+    <div class="callout callout-info mb-6">
+      <p class="callout-title">为什么基于风险而非仅风险因素</p>
+      <p>任何给定治疗的预期<strong>绝对风险降低</strong>与个体基线预测风险成正比。基于风险的策略在避免 CVD 事件方面比仅基于风险因素水平的策略更有效。</p>
+    </div>
+
+    <h3 class="font-serif text-xl font-bold text-ink mb-4">PREVENT 公式与 CKM 管理阈值</h3>
+    <div class="table-wrap"><table class="tbl">
+      <thead><tr><th>公式</th><th>结局</th><th>阈值</th><th>临床应用</th></tr></thead>
+      <tbody>
+        {preventThresholds.map((row) => (
+          <tr>
+            <td><strong>{row.formula}</strong></td>
+            <td>{row.outcome}</td>
+            <td class="num">{row.threshold}</td>
+            <td set:html={row.app}></td>
+          </tr>
+        ))}
+      </tbody>
+    </table></div>
+    <p class="text-xs text-subtle mt-3">PREVENT-CVD 作为主要公式，因为 CKM 综合征中 ASCVD 和 HF 风险均增加。</p>
+  </section>
+
+  {/* 风险增强因素 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">细化风险</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">CKM 风险增强因素</h2>
+        <p class="text-muted leading-relaxed">在 PREVENT 估算风险并定义分期后，风险增强因素可进一步细化个体进展至更高级分期、发展临床 CVD 或肾功能恶化的风险。</p>
+      </div>
+      <div class="space-y-4 mb-8">
+        <Recommendation cor="2a" loe="B-NR" body="在 30–79 岁无 CVD 的成人中，使用 CKM 综合征进展的风险增强因素指导预防强化策略的决策是合理的。" />
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {enhancerCards.map((item) => (
+          <div class="card p-5">
+            <h3 class="font-serif font-bold text-ink mb-2 text-sm">{item.title}</h3>
+            <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+          </div>
+        ))}
+        <div class="card p-5" style="background:#f0fdfa">
+          <h3 class="font-serif font-bold text-ink mb-2 text-sm" style="color:#0f766e">为什么重要</h3>
+          <p class="text-sm text-muted leading-relaxed">CKM 分期进展的异质性很大，与 CVD、肾衰竭和死亡率风险增加相关。考虑这些因素可促进医患共同决策，决定是否启动或强化治疗。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* SDOH */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">非医学因素</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">社会健康决定因素 (SDOH)</h2>
+      <p class="text-muted leading-relaxed">SDOH 是影响疾病风险和健康结局的<strong>非医学因素</strong>，在 CKM 健康整个生命周期中起关键作用。儿童青少年中，SDOH 在关键发育期促进早期生活逆境，直接影响成年期心血管健康。</p>
+    </div>
+
+    <div class="space-y-4 mb-8">
+      {sdohRecs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} />
+      ))}
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div>
+        <h3 class="font-serif font-bold text-ink mb-3">成人 SDOH 筛查工具</h3>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>工具</th><th>评估内容</th></tr></thead>
+          <tbody>
+            {adultSdohTools.map((row) => (
+              <tr>
+                <td><strong>{row.tool}</strong></td>
+                <td>{row.content}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table></div>
+      </div>
+      <div>
+        <h3 class="font-serif font-bold text-ink mb-3">照护者 SDOH 筛查工具</h3>
+        <ul class="space-y-2.5">
+          {caregiverTools.map((item) => (
+            <li class="card p-4">
+              <strong class="text-ink">{item.name}</strong>
+              {item.desc && <p class="text-sm text-muted mt-1">{item.desc}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-note mt-8 max-w-3xl">
+      <p class="callout-title">📋 报销与频率</p>
+      <p>Medicare 和 Medicaid 报销门诊 SDOH 评估每 6 个月一次，住院期间每年一次；但在<strong>每次就诊时</strong>评估社会需求可能更好地支持 CKM 预防和管理。一项小型随机交叉试验（44 名糖尿病和食物不安全成人）发现，医疗定制餐食递送项目改善了饮食质量、降低食物不安全性并减少低血糖发生。</p>
+    </div>
+  </section>
+
+  <Cta
+    eyebrow="下一步"
+    title="如何管理与治疗？"
+    description="了解了一般照护原则与生活方式干预——这是所有分期管理的第一基石。"
+    linkHref="/management.html"
+    linkLabel="查看管理原则 →"
+    gradient="linear-gradient(135deg,#fff1f2,#f0fdfa)"
+  />
+</BaseLayout>

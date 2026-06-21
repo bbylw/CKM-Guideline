@@ -1,0 +1,325 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const title = '参考资源 · CKM 健康指南';
+const description = 'CKM 指南缩略语表、术语表、关键临床试验、参考文献与指南方法学。';
+
+const navCards = [
+  { href: '#abbrev', chip: '缩略语', desc: '完整中英对照表' },
+  { href: '#glossary', chip: '术语表', desc: '核心概念速查' },
+  { href: '#trials', chip: '临床试验', desc: '关键试验一览' },
+  { href: '#refs', chip: '参考文献', desc: '相关指南与文献' },
+  { href: '#downloads', chip: '⬇ 下载', chipBg: '#fffbeb', chipColor: '#b45309', chipBorder: '#fde68a', cardBg: 'linear-gradient(135deg,#f0fdfa,#fffbeb)', desc: '原始 PDF 文档' },
+  { href: '#method', chip: '方法学', desc: '指南制定方法' },
+  { href: '#disclaimer', chip: '声明', desc: '使用说明' },
+];
+
+const abbreviations = [
+  { abbr: 'ACEi', en: 'Angiotensin-converting enzyme inhibitors', zh: '血管紧张素转换酶抑制剂' },
+  { abbr: 'APO', en: 'Adverse pregnancy outcome', zh: '不良妊娠结局' },
+  { abbr: 'ARB', en: 'Angiotensin II receptor blockers', zh: '血管紧张素 II 受体阻滞剂' },
+  { abbr: 'ARNI', en: 'Angiotensin receptor–neprilysin inhibitor', zh: '血管紧张素受体脑啡肽酶抑制剂' },
+  { abbr: 'ASCVD', en: 'Atherosclerotic cardiovascular disease', zh: '动脉粥样硬化性心血管疾病' },
+  { abbr: 'BNP', en: 'B-type natriuretic peptide', zh: 'B 型利钠肽' },
+  { abbr: 'BP', en: 'Blood pressure', zh: '血压' },
+  { abbr: 'CAC', en: 'Coronary artery calcium', zh: '冠状动脉钙化' },
+  { abbr: 'CCD', en: 'Chronic coronary disease', zh: '慢性冠脉疾病' },
+  { abbr: 'CI', en: 'Confidence interval', zh: '置信区间' },
+  { abbr: 'CKD', en: 'Chronic kidney disease', zh: '慢性肾脏病' },
+  { abbr: 'CKM', en: 'Cardiovascular-kidney-metabolic', zh: '心血管-肾脏-代谢' },
+  { abbr: 'CVD', en: 'Cardiovascular disease', zh: '心血管疾病' },
+  { abbr: 'DOAC', en: 'Direct oral anticoagulants', zh: '直接口服抗凝药' },
+  { abbr: 'eGFR', en: 'Estimated glomerular filtration rate', zh: '估算肾小球滤过率' },
+  { abbr: 'GDM', en: 'Gestational diabetes mellitus', zh: '妊娠糖尿病' },
+  { abbr: 'GDMT', en: 'Guideline-directed medical therapy', zh: '指南指导的药物治疗' },
+  { abbr: 'GIP', en: 'Glucose-dependent insulinotropic polypeptide', zh: '葡萄糖依赖性促胰岛素多肽' },
+  { abbr: 'GLP-1', en: 'Glucagon-like peptide-1', zh: '胰高血糖素样肽-1' },
+  { abbr: 'GLP-RA', en: 'GLP-1 receptor agonist', zh: 'GLP-1 受体激动剂' },
+  { abbr: 'HbA1c', en: 'Hemoglobin A1c', zh: '糖化血红蛋白' },
+  { abbr: 'HDL-C', en: 'High-density lipoprotein cholesterol', zh: '高密度脂蛋白胆固醇' },
+  { abbr: 'HF', en: 'Heart failure', zh: '心力衰竭' },
+  { abbr: 'HFmrEF', en: 'HF with mildly reduced ejection fraction', zh: '射血分数轻度降低型 HF' },
+  { abbr: 'HFpEF', en: 'HF with preserved ejection fraction', zh: '射血分数保留型 HF' },
+  { abbr: 'HFrEF', en: 'HF with reduced ejection fraction', zh: '射血分数降低型 HF' },
+  { abbr: 'HR', en: 'Hazard ratio', zh: '风险比' },
+  { abbr: 'Hs', en: 'High-sensitivity', zh: '高灵敏度' },
+  { abbr: 'ICER', en: 'Incremental cost-effectiveness ratio', zh: '增量成本效益比' },
+  { abbr: 'LDL-C', en: 'Low-density lipoprotein cholesterol', zh: '低密度脂蛋白胆固醇' },
+  { abbr: 'LSG', en: 'Laparoscopic sleeve gastrectomy', zh: '腹腔镜袖状胃切除术' },
+  { abbr: 'LVEF', en: 'Left ventricular ejection fraction', zh: '左心室射血分数' },
+  { abbr: 'MACE', en: 'Major adverse cardiovascular event', zh: '主要不良心血管事件' },
+  { abbr: 'MASLD', en: 'Metabolic dysfunction–associated steatotic liver disease', zh: '代谢功能障碍相关脂肪性肝病' },
+  { abbr: 'MBS', en: 'Metabolic and bariatric surgery', zh: '代谢减重手术' },
+  { abbr: 'MRA', en: 'Mineralocorticoid receptor antagonist', zh: '盐皮质激素受体拮抗剂' },
+  { abbr: 'nsMRA', en: 'Nonsteroidal MRA', zh: '非甾体 MRA' },
+  { abbr: 'NT-proBNP', en: 'N-terminal pro-BNP', zh: 'N 末端 B 型利钠肽原' },
+  { abbr: 'OSA', en: 'Obstructive sleep apnea', zh: '阻塞性睡眠呼吸暂停' },
+  { abbr: 'PAD', en: 'Peripheral artery disease', zh: '外周动脉疾病' },
+  { abbr: 'PREVENT', en: 'Predicting Risk of CVD EVENTs', zh: '心血管事件风险预测公式' },
+  { abbr: 'RAASi', en: 'Renin-angiotensin-aldosterone system inhibitors', zh: '肾素-血管紧张素-醛固酮系统抑制剂' },
+  { abbr: 'RASi', en: 'Renin-angiotensin system inhibitors', zh: '肾素-血管紧张素系统抑制剂' },
+  { abbr: 'RCT', en: 'Randomized controlled trial', zh: '随机对照试验' },
+  { abbr: 'RYGB', en: 'Roux-en-Y gastric bypass', zh: 'Roux-en-Y 胃旁路术' },
+  { abbr: 'SDOH', en: 'Social determinants of health', zh: '社会健康决定因素' },
+  { abbr: 'SGLT2i', en: 'Sodium-glucose cotransporter-2 inhibitors', zh: '钠-葡萄糖共转运蛋白 2 抑制剂' },
+  { abbr: 'T2D', en: 'Type 2 diabetes', zh: '2 型糖尿病' },
+  { abbr: 'UACR', en: 'Urine albumin-to-creatinine ratio', zh: '尿白蛋白/肌酐比值' },
+];
+
+const glossary = [
+  { term: '原始预防 (Primordial Prevention)', desc: '预防风险因素本身的发展，而非仅预防已存在风险因素的后果。0 期的核心目标。' },
+  { term: 'GDMT', desc: '指南指导的药物治疗。HF 的四联疗法即为 GDMT 的典型。' },
+  { term: '多器官获益', desc: '同一药物同时带来心血管与肾脏（有时还有代谢）获益，是 CKM 药物治疗的核心理念。' },
+  { term: '白蛋白尿 (Albuminuria)', desc: 'UACR ≥ 30 mg/g。是指导 CKD 管理与药物选择的关键标志物。' },
+  { term: 'CKM 协调人 (Point Person)', desc: '统筹多学科团队、协助实施 GDMT、为患者和临床医生提供支持的关键角色。' },
+  { term: '社会剥夺指数 (Social Deprivation Index)', desc: 'PREVENT 附加模型纳入的指标，反映 SDOH 对心血管风险的影响。' },
+];
+
+const trials = [
+  { name: 'SELECT', drug: 'semaglutide', desc: '超重/肥胖和已确立 CVD 患者中降低 MACE 风险 20%。', color: '#0f766e' },
+  { name: 'STEP-HFpEF / STEP-HFpEF-DM', drug: 'semaglutide', desc: 'HFpEF 和肥胖患者改善 KCCQ-CSS、6MWD、NT-proBNP、CRP。', color: '#0f766e' },
+  { name: 'FLOW', drug: 'semaglutide', desc: 'T2D 和白蛋白尿 CKD 中降低肾功能丧失和心血管事件；降低 HF 事件 HR 0.74。', color: '#0f766e' },
+  { name: 'SURMOUNT-5', drug: 'tirzepatide vs semaglutide', desc: 'tirzepatide 在总体减重和减重维持方面优于 semaglutide。', color: '#0f766e' },
+  { name: 'EMPA-KIDNEY / DAPA-CKD / CREDENCE', drug: 'SGLT2i', desc: 'SGLT2i 降低 CKD 进展、肾衰竭、CV 死亡和全因死亡率。', color: '#b45309' },
+  { name: 'FIDELIO-DKD / FIGARO-DKD', drug: 'finerenone', desc: 'T2D 和 CKD 患者中降低肾功能丧失和心血管事件。FINEARTS-HF 用于 HF。', color: '#b45309' },
+  { name: 'STENO-2', drug: '多因素干预', desc: 'T2D 和微量白蛋白尿患者强化多因素干预降低 CVD 事件和死亡率。', color: '#be123c' },
+  { name: 'COORDINATE-Diabetes', drug: '多方面干预', desc: '心脏病学家与糖尿病照护医生协作改善 T2D 和 ASCVD 患者循证治疗处方。', color: '#be123c' },
+  { name: 'EMPEROR-Preserved / DELIVER', drug: 'SGLT2i', desc: 'Meta 分析显示 SGLT2i 降低 HFpEF 患者心血管死亡和 HF 住院。', color: '#be123c' },
+  { name: 'STOP-HF', drug: 'BNP + 超声心动图', desc: 'BNP 联合超声心动图与协同照护降低左室功能障碍或 HF 风险。', color: '#0d9488' },
+  { name: 'STAMPEDE / ARMMS-T2D', drug: 'MBS', desc: '代谢减重手术与 T2D 缓解率高于医疗/生活方式治疗相关。', color: '#0d9488' },
+  { name: 'RENAAL', drug: 'losartan', desc: 'T2D 和白蛋白尿患者降低主要复合肾脏终点并降低首次 HF 住院。', color: '#0d9488' },
+];
+
+const references = [
+  { title: '本指南', desc: 'Ndumele CE, Rodriguez F, Dixon DL, 等. 2026 AHA/ACC/ADA/ASN Guideline for the Prevention, Detection, Evaluation, and Management of Cardiovascular-Kidney-Metabolic Syndrome. <em>J Am Coll Cardiol</em>. 2026;87(22S):e1889–e2007. DOI: 10.1016/j.jacc.2026.02.001' },
+  { title: '2019 ACC/AHA', desc: '心血管疾病一级预防指南' },
+  { title: '2022 AHA/ACC/HFSA', desc: '心力衰竭管理指南' },
+  { title: '2023 ACC/AHA/ACCP/ASPC 等', desc: '慢性冠脉疾病管理指南' },
+  { title: '2023 ACC/AHA/ACCP/HRS', desc: '心房颤动管理指南' },
+  { title: '2024 ACC/AHA 等', desc: '下肢外周动脉疾病管理指南' },
+  { title: '2025 AHA/ACC 等', desc: '成人高血压预防、检测、评估和管理指南' },
+  { title: '2026 ACC/AHA 等', desc: '血脂异常管理指南' },
+  { title: '2023 AHA', desc: 'CKM 健康总统咨询' },
+  { title: '2023', desc: 'PREVENT 风险公式推导与验证研究' },
+];
+
+const methodCards = [
+  { title: '证据审查', desc: '全面文献检索时间为 2024 年 10 月 29 日至 2025 年 4 月 14 日，纳入 2015 年以来以英文发表的人体临床研究、系统综述/meta 分析及其他证据。数据库包括 MEDLINE (via PubMed)、EMBASE、Cochrane Library、AHRQ 等。写作委员会酌情补充了截至 2025 年 11 月发表的关键研究。' },
+  { title: '写作委员会', desc: '由 ACC/AHA 联合临床实践指南委员会监督组建。主席为 Chiadi E. Ndumele 医学博士，副主席为 Fatima Rodriguez 医学博士。委员会由心脏病学、内分泌学、肾脏病学、护理学、药学等多学科专家组成。成员在与本人特定行业关系可能影响投票的章节中<strong>回避表决</strong>。' },
+  { title: '同行评审', desc: '经 2 名共同主席（Nicole Bhave、Amit Khera）领导的同行评审委员会审议，并经过 ACC/AHA 联合临床实践指南委员会、ACC 科学政策审批委员会、AHA 科学咨询与协调委员会等多级审批。' },
+  { title: '利益关系披露', desc: '所有写作委员会成员均需披露所有相关利益关系 (RWI)，详细 RWI 信息见附录 1（原文 e1998–e2004，跨 7 页）。同行评审委员会 RWI 见附录 2（e2005–e2007）。' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="附录 · 资源汇总"
+    title="参考资源与术语"
+    description="缩略语、术语表、关键临床试验与参考文献——帮助你在阅读过程中随时查证。本页也收录指南的方法学与组织信息。"
+    breadcrumb="参考资源"
+  />
+
+  {/* 导航 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {navCards.map((item) => (
+        <a
+          href={item.href}
+          class="card card-hover p-4"
+          style={item.cardBg ? `background:${item.cardBg}` : undefined}
+        >
+          <span
+            class="chip mb-2"
+            style={item.chipBg ? `background:${item.chipBg};color:${item.chipColor};border-color:${item.chipBorder}` : undefined}
+          >{item.chip}</span>
+          <p class="text-sm text-muted">{item.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* 缩略语 */}
+  <section id="abbrev" class="bg-surface/60 border-y border-line scroll-mt-20">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">完整缩略语表</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">缩略语（按字母顺序）</h2>
+        <p class="text-muted leading-relaxed">本指南使用的所有英文缩写及其全称与中文译名。阅读其他章节时可随时返回此处查证。</p>
+      </div>
+      <div class="table-wrap"><table class="tbl">
+        <thead><tr><th>缩写</th><th>英文全称</th><th>中文</th></tr></thead>
+        <tbody>
+          {abbreviations.map((row) => (
+            <tr>
+              <td><strong>{row.abbr}</strong></td>
+              <td>{row.en}</td>
+              <td>{row.zh}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  {/* 术语表 */}
+  <section id="glossary" class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14 scroll-mt-20">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">核心术语</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">术语速查表</h2>
+      <p class="text-muted leading-relaxed">阅读指南时常遇到的核心概念，以简洁方式说明。</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      {glossary.map((item) => (
+        <div class="card p-5">
+          <h3 class="font-serif font-bold text-ink mb-1.5">{item.term}</h3>
+          <p class="text-sm text-muted">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* 关键试验 */}
+  <section id="trials" class="bg-surface/60 border-y border-line scroll-mt-20">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">关键临床试验</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">支持指南的关键试验</h2>
+        <p class="text-muted leading-relaxed">这些临床试验是 CKM 综合征管理推荐意见的主要证据来源。</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        {trials.map((item) => (
+          <div class="card p-5" style={`border-left:4px solid ${item.color}`}>
+            <h3 class="font-serif font-bold text-ink mb-1">{item.name}</h3>
+            <p class="text-xs text-subtle mb-2">{item.drug}</p>
+            <p class="text-sm text-muted">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 参考文献 */}
+  <section id="refs" class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14 scroll-mt-20">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">相关指南与文献</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">主要参考文献</h2>
+      <p class="text-muted leading-relaxed">本指南引用 600+ 条参考文献，涵盖所有支持建议的关键临床试验、系统综述和观察性研究。以下为主要相关指南与核心文献。</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      {references.map((item) => (
+        <div class="card p-5">
+          <h3 class="font-serif font-bold text-ink mb-1 text-sm">{item.title}</h3>
+          <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+        </div>
+      ))}
+    </div>
+    <p class="text-xs text-subtle mt-4">完整参考文献列表见原 PDF 第 84–116 页（e1972–e1996）。</p>
+  </section>
+
+  {/* 原始文档下载 */}
+  <section id="downloads" class="bg-surface/60 border-y border-line scroll-mt-20">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">原始文档</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">下载源文件</h2>
+        <p class="text-muted leading-relaxed">本科普网站改编自以下两份原始文档。如需查阅完整原文、原始表格与参考文献列表，请下载 PDF。</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5">
+        {/* 中文翻译版 */}
+        <a href="/CKM指南完整中文翻译.pdf" download class="card card-hover p-6 group flex flex-col" style="border-left:4px solid #0f766e">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="tri-dot flex-shrink-0" style="background:#f0fdfa;color:#0f766e;border:1px solid #99f6e4;width:48px;height:48px;font-size:1.3rem">中</div>
+            <div class="flex-1">
+              <span class="chip mb-2" style="background:#f0fdfa;color:#0f766e;border-color:#99f6e4">PDF · 中文翻译版</span>
+              <h3 class="font-serif font-bold text-ink mb-1">CKM 指南完整中文翻译</h3>
+              <p class="text-xs text-subtle">完整 119 页 PDF 全部章节中文翻译，含所有表格与图说明</p>
+            </div>
+          </div>
+          <dl class="text-sm space-y-1.5 mb-5 border-t border-line pt-4">
+            <div class="flex justify-between"><dt class="text-subtle">文件大小</dt><dd class="text-ink tnum">约 1.58 MB</dd></div>
+            <div class="flex justify-between"><dt class="text-subtle">格式</dt><dd class="text-ink">PDF · 可直接阅读</dd></div>
+            <div class="flex justify-between"><dt class="text-subtle">来源</dt><dd class="text-ink text-right text-xs">译自英文原版指南</dd></div>
+          </dl>
+          <span class="btn btn-primary mt-auto self-start group-hover:bg-brand-dark">⬇ 下载中文翻译 PDF</span>
+        </a>
+
+        {/* 英文原版 */}
+        <a href="/CKM2026.pdf" download class="card card-hover p-6 group flex flex-col" style="border-left:4px solid #b45309">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="tri-dot flex-shrink-0" style="background:#fffbeb;color:#b45309;border:1px solid #fde68a;width:48px;height:48px;font-size:1.3rem">EN</div>
+            <div class="flex-1">
+              <span class="chip mb-2" style="background:#fffbeb;color:#b45309;border-color:#fde68a">PDF · 英文原版</span>
+              <h3 class="font-serif font-bold text-ink mb-1">CKM 2026 英文原版指南</h3>
+              <p class="text-xs text-subtle">2026 AHA/ACC/ADA/ASN Guideline 原始 119 页英文文档</p>
+            </div>
+          </div>
+          <dl class="text-sm space-y-1.5 mb-5 border-t border-line pt-4">
+            <div class="flex justify-between"><dt class="text-subtle">文件大小</dt><dd class="text-ink tnum">约 23.0 MB</dd></div>
+            <div class="flex justify-between"><dt class="text-subtle">格式</dt><dd class="text-ink">PDF · 含完整参考文献</dd></div>
+            <div class="flex justify-between"><dt class="text-subtle">来源</dt><dd class="text-ink text-right text-xs">J Am Coll Cardiol 官方发表</dd></div>
+          </dl>
+          <span class="btn btn-primary mt-auto self-start group-hover:bg-brand-dark" style="background:#b45309">⬇ 下载英文原版 PDF</span>
+        </a>
+      </div>
+
+      <div class="callout callout-warn mt-6 max-w-3xl">
+        <p class="callout-title">📄 使用提示</p>
+        <p class="text-sm">两个 PDF 文件均位于网站根目录，点击上方卡片即可在浏览器中打开或下载。<strong>中文翻译版</strong>便于快速阅读，<strong>英文原版</strong>包含全部 600+ 条参考文献（原 PDF 第 84–116 页）。两份文档均仅供学习参考，不构成医疗建议。</p>
+      </div>
+    </div>
+  </section>
+
+  {/* 方法学 */}
+  <section id="method" class="bg-surface/60 border-y border-line scroll-mt-20">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">第 1 章 · 方法学</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">指南制定方法</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        {methodCards.map((item) => (
+          <div class="card p-6">
+            <h3 class="font-serif font-bold text-ink mb-2">{item.title}</h3>
+            <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 声明 */}
+  <section id="disclaimer" class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">使用说明</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">重要声明</h2>
+    </div>
+    <div class="space-y-4 max-w-3xl">
+      <div class="callout callout-danger">
+        <p class="callout-title">⚠️ 不构成医疗建议</p>
+        <p>本网站为<strong>科普内容</strong>，旨在帮助公众理解 CKM 综合征相关知识，<strong>不构成任何医疗建议</strong>，不能替代专业医务人员的诊断与治疗。所有临床决策应以最新原版指南为准，并由专业医务人员执行。如有健康问题，请咨询 qualified 医生。</p>
+      </div>
+      <div class="callout callout-info">
+        <p class="callout-title">📖 内容来源</p>
+        <p>本站内容改编自《2026 AHA/ACC/ADA/ASN 心血管-肾脏-代谢综合征的预防、检测、评估与管理指南》完整中文翻译版。原文 119 页，由 Ndumele、Rodriguez 等撰写，2026 年 6 月 9 日发表于 <em>J Am Coll Cardiol</em> 与 <em>Circulation</em>。本翻译保留所有推荐意见的 COR/LOE 分级、英文缩写、药物英文名与关键试验名称。</p>
+      </div>
+      <div class="callout callout-note">
+        <p class="callout-title">🔧 翻译与改编说明</p>
+        <p>• 章节涵盖摘要、关键要点、第 1–9 章主体内容、监测随访、证据空白、关键词、参考文献列表、附录 1–2。<br>• 完整翻译所有表格（表 1–21）和图说明（Figure 1–20）。<br>• 保留原始 PDF 页码（如 e1889–e2007）便于回查。<br>• 本科普版本对原文进行了可视化与结构化改编以提升可读性，但核心数据与推荐意见忠实于原文。</p>
+      </div>
+    </div>
+  </section>
+
+  {/* 返回首页 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="card p-8 lg:p-10 text-center" style="background:linear-gradient(135deg,#f0fdfa,#fff1f2)">
+      <h2 class="font-serif text-2xl font-bold text-ink mb-3">回到起点</h2>
+      <p class="text-muted mb-6 max-w-md mx-auto">你已经读完了整个 CKM 健康科普网站。回到首页重新回顾关键信息，或选择一个主题深入阅读。</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="/index.html" class="btn btn-primary">返回首页</a>
+        <a href="/overview.html" class="btn btn-ghost">重新认识 CKM</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

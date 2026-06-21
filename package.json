@@ -1,0 +1,20 @@
+{
+  "name": "ckm-guideline",
+  "type": "module",
+  "version": "2.0.0",
+  "description": "基于《2026 AHA/ACC/ADA/ASN 心血管-肾脏-代谢综合征防治指南》的中文科普网站 — Astro + Tailwind CSS 版本",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.6.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}

@@ -1,0 +1,39 @@
+---
+interface Props {
+  cor: '1' | '2a' | '2b' | '3' | 'econ';
+  loe: string;
+  body: string;
+  econ?: string;
+}
+
+const { cor, loe, body, econ } = Astro.props;
+
+const corLabel: Record<string, string> = {
+  '1': 'COR 1',
+  '2a': 'COR 2a',
+  '2b': 'COR 2b',
+  '3': 'COR 3',
+  'econ': 'COR Econ',
+};
+
+const corClass: Record<string, string> = {
+  '1': 'cor-1',
+  '2a': 'cor-2a',
+  '2b': 'cor-2b',
+  '3': 'cor-3',
+  'econ': 'cor-econ',
+};
+---
+
+<div class="recommendation" data-cor={cor}>
+  <div class="rec-badges">
+    <span class={`cor-badge ${corClass[cor]}`}>{corLabel[cor]}</span>
+    <span class="loe-badge">{loe}</span>
+  </div>
+  <div class="rec-body">
+    <span set:html={body}></span>
+    {econ && (
+      <div class="rec-econ" set:html={econ}></div>
+    )}
+  </div>
+</div>

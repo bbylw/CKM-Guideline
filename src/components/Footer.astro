@@ -1,0 +1,39 @@
+---
+import { footerNavCol1, footerNavCol2 } from '../config/navigation';
+---
+
+<footer class="site-footer">
+  <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid md:grid-cols-4 gap-8">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-2.5 mb-4">
+          <span class="tri-dot" style="background:#0f766e;color:#fff;width:34px;height:34px;font-size:0.9rem">心</span>
+          <span class="font-serif font-bold text-[1.05rem] text-white">CKM 健康指南</span>
+        </div>
+        <p class="text-sm leading-relaxed text-stone-400 max-w-md">
+          基于《2026 AHA/ACC/ADA/ASN 心血管-肾脏-代谢综合征防治指南》的中文科普网站。帮助公众与患者理解心脏、肾脏与代谢之间的联系。
+        </p>
+      </div>
+      <div>
+        <h4 class="font-serif font-bold text-white text-sm mb-3">内容导航</h4>
+        <ul class="text-sm space-y-2">
+          {footerNavCol1.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-serif font-bold text-white text-sm mb-3">治疗与资源</h4>
+        <ul class="text-sm space-y-2">
+          {footerNavCol2.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-stone-700/60 mt-10 pt-6 flex flex-col sm:flex-row justify-between gap-4 text-xs text-stone-500">
+      <p>科普改编 · 内容基于 2026 AHA/ACC/ADA/ASN 指南 · 仅供学习参考</p>
+      <p>© <span data-year>2026</span> CKM 健康指南 · 本站不提供医疗建议</p>
+    </div>
+  </div>
+</footer>

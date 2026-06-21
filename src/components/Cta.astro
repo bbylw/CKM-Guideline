@@ -1,0 +1,31 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  linkHref: string;
+  linkLabel: string;
+  /** 卡片背景渐变 */
+  gradient?: string;
+}
+
+const {
+  eyebrow = '下一步',
+  title,
+  description,
+  linkHref,
+  linkLabel,
+  gradient = 'linear-gradient(135deg, var(--color-brand-tint), var(--color-kidney-tint))',
+} = Astro.props;
+---
+
+<section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+  <div class="card p-8 lg:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6" style={`background:${gradient}`}>
+    <div>
+      <p class="eyebrow mb-2">{eyebrow}</p>
+      <h2 class="font-serif text-2xl font-bold text-ink mb-2">{title}</h2>
+      <p class="text-muted">{description}</p>
+    </div>
+    <a href={linkHref} class="btn btn-primary flex-shrink-0">{linkLabel}</a>
+  </div>
+</section>

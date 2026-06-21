@@ -1,0 +1,345 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+import Recommendation from '../components/Recommendation.astro';
+
+const title = '管理原则与生活方式 · CKM 健康指南';
+const description = 'CKM 综合征一般照护原则：多学科协作、Life\'s Essential 8、强化生活方式改变、0-3 期管理。';
+
+const principles = [
+  { color: '#0f766e', label: '非评判', desc: '以<strong>非评判性方法</strong>启动肥胖管理讨论，避免体重污名——经历非评判性讨论的个体更易实现 &gt;10% 减重。' },
+  { color: '#be123c', label: '全面', desc: '全面解决 CKM 综合征风险因素，重叠疾病作为治疗决策焦点以<strong>最大化临床获益</strong>。' },
+  { color: '#b45309', label: '协作', desc: '多学科照护框架减少医疗保健碎片化，指定一名<strong>CKM 协调人</strong>统筹团队工作。' },
+  { color: '#0d9488', label: '公平', desc: '将缓解<strong>SDOH 影响</strong>的努力整合到 CKM 综合征照护中，关注健康公平。' },
+];
+
+const multidisciplinaryRecs = [
+  { cor: '1' as const, loe: 'B-R', body: '在 CKM 2–4 期伴 ≥ 2 项 CKM 状况（糖尿病、CKD 和/或 CVD）的成人中，推荐使用<strong>多学科照护团队</strong>配合 <strong>CKM 协调人</strong>，以促进多系统 CKM 综合征照护，包括生活方式干预和 GDMT 优化。' },
+  { cor: '1' as const, loe: 'C-EO', body: '在伴 CKM 综合征的成人中，应优先减轻不良 SDOH 的临床影响，以优化整体 CKM 综合征照护。' },
+];
+
+const teamComposition = [
+  { category: '一般医疗照护', members: '初级保健临床医生、CKM 协调人、临床药剂师、护士、营养师' },
+  { category: '亚专科照护', members: '心脏科、内分泌科、肾脏病科、肝病科、糖尿病教育者' },
+  { category: '社会支持', members: '社工、社区卫生工作者' },
+];
+
+const coordinationServices = [
+  { service: '综合用药管理', content: '患者教育、用药对账、起始/滴定/监测、副作用处理' },
+  { service: '生活方式管理促进', content: '饮食和运动教育、戒烟' },
+  { service: '照护协调', content: '团队沟通、复杂照护计划理解' },
+  { service: '患者导航', content: '理解团队角色、预约跟进、社会援助项目' },
+];
+
+const obesityRecs = [
+  { cor: '1' as const, loe: 'A', body: '在伴超重或肥胖的成人中，<strong>生活方式改变</strong>应作为实现基线体重至少 <strong>5%–10% 减重</strong>的一线策略。' },
+  { cor: '1' as const, loe: 'B-NR', body: '在接受减重咨询的伴超重或肥胖的成人中，推荐采用<strong>非评判性方法</strong>启动减重讨论，以提高减重的有效性。' },
+  { cor: '2a' as const, loe: 'B-NR', body: '在伴肥胖的成人中，<strong>多学科综合减重管理团队</strong>可有效增强以患者为中心的减重方法。' },
+];
+
+const lifestyleComponents = [
+  { chip: '饮食', desc: '每日 <strong>500–750 kcal</strong> 热量赤字的饮食改变。<strong>DASH、地中海、鱼类素食和素食饮食</strong>提供显著心脏代谢益处。<strong>生酮饮食</strong>可减重但可能引起严重高胆固醇血症。' },
+  { chip: '运动', desc: '每周 <strong>≥ 150 分钟</strong>中等强度有氧活动。<strong>增加体力活动</strong>是最一致的减重维持行为。' },
+  { chip: '行为', desc: '<strong>≥ 14 个月</strong>行为治疗，包括饮食、运动和体重的自我监测，以及指导性问题解决。导致平均 <strong>8% 减重</strong>。' },
+];
+
+const gdmRecs = [
+  { cor: '1' as const, loe: 'B-R', body: '在诊断为 GDM 的女性中，推荐在<strong>产后 4–12 周进行口服葡萄糖耐量试验</strong>以筛查糖尿病前期和糖尿病。' },
+  { cor: '1' as const, loe: 'C-LD', body: '在诊断为 GDM 的女性中，推荐由医疗保健临床医生<strong>提供咨询</strong>，以提高对 T2D 发展和 CKM 分期进展风险的认识。' },
+  { cor: '1' as const, loe: 'B-R', body: '在有 GDM 和糖尿病前期病史的产后女性中，推荐通过<strong>生活方式干预或二甲双胍</strong>来优化血糖和代谢危险因素，可降低 T2D 发病和 CKM 分期进展风险 50%–60%。' },
+];
+
+const stage3Recs = [
+  { cor: '2a' as const, loe: 'B-NR', body: '在因存在临床显著 CAC（CAC 评分 &gt; 100，或定性评估中等至重度 CAC）而被归为 CKM 3 期的成人中，启动或强化预防性治疗对降低心血管事件是合理的。' },
+  { cor: '1' as const, loe: 'B-R', body: '对于因 Pre-HF 归为 CKM 3 期的成人，推荐实施<strong>强化生活方式干预和强化危险因素控制</strong>，以改善 CKM 健康并预防进展为临床心衰。' },
+  { cor: '1' as const, loe: 'B-NR', body: '对于因 Pre-HF 且合并 T2D 或 CKD 的成人，推荐将 <strong>SGLT2i</strong> 作为预防心衰的一线治疗。' },
+  { cor: '2a' as const, loe: 'B-NR', body: '对于因 Pre-HF 且合并糖尿病、CKD 以及 UACR ≥ 100 mg/g 的成人，在 SGLT2i 基础上加用已证实心血管获益的 <strong>GLP-1 类疗法</strong>以预防心衰是合理的。' },
+  { cor: '2a' as const, loe: 'B-NR', body: '对于因 Pre-HF 且合并糖尿病、CKD 以及 UACR ≥ 30 mg/g 的成人，在 SGLT2i 基础上加用<strong>非甾体 MRA (nsMRA)</strong>以预防心衰是合理的。' },
+];
+
+const preHfThresholds = [
+  { category: '结构性心脏病', threshold: 'LAVI ≥ 29 mL/m²; LVMI &gt; 116 g/m²(男)/&gt;95 g/m²(女); RWT &gt; 0.42; LV 壁厚度 ≥ 12 mm; LVEF &lt; 50%; GLS &lt; 16%; 室间隔 e\' &lt; 7 cm/s; TR 速度 &gt; 2.8 m/s' },
+  { category: '生物标志物', threshold: 'NT-proBNP ≥ 125 pg/mL; hs-cTnT ≥ 14 ng/L(女)/≥22 ng/L(男); hs-cTnI ≥ 10 ng/L(女)/≥12 ng/L(男)' },
+];
+
+const overlapRows = [
+  { disease: '核心管理', obesity: '生活方式改变；减重药物辅助；或 MBS', t2d: '生活方式改变；风险因素控制；SGLT2i / GLP-1 / 联合', ckd: 'RASi + SGLT2i 作为白蛋白尿 CKD 一线' },
+  { disease: '肥胖', obesity: '—', t2d: '优先 GLP-1 类治疗 T2D 并降低 CVD 风险', ckd: '故意减重降低白蛋白尿', muted1: true },
+  { disease: 'T2D', obesity: '优先 GLP-1 类治疗 T2D 并降低 CVD 风险', t2d: '—', ckd: 'RASi + SGLT2i 一线；持续白蛋白尿加 GLP-1RA 和/或 finerenone', muted2: true },
+  { disease: '白蛋白尿 CKD', obesity: '故意减重降低白蛋白尿', t2d: 'RASi + SGLT2i 一线', ckd: '—', muted3: true },
+  { disease: 'MASLD', obesity: '建议减重；纤维化 MASLD 建议 GLP-1RA', t2d: '适当减重；建议 GLP-1RA', ckd: '—', muted3: true },
+  { disease: 'Pre-HF', obesity: '显著减重降低 HF 风险', t2d: 'SGLT2i 一线；加 GLP-1RA 或 finerenone', ckd: 'SGLT2i 用于 HF 预防；DKD 存在时加 GLP-1RA 或 finerenone' },
+  { disease: 'ASCVD', obesity: '综合减重管理；GLP-1 类降低 MACE', t2d: '生活方式 + SGLT2i/GLP-1 + 风险因素控制', ckd: 'SGLT2i 降低 MACE、CV 死亡和肾功能丧失' },
+  { disease: 'HFpEF', obesity: 'GLP-1 类；考虑运动训练和低热量饮食', t2d: 'SGLT2i 一线；GLP-1 类如合并糖尿病和肥胖', ckd: 'SGLT2i（作为 HF GDMT）；DKD 存在时考虑 finerenone' },
+  { disease: 'HFrEF', obesity: 'GLP-1 类风险/获益不明确', t2d: 'SGLT2i 一线降低 HF 事件和 CV 死亡', ckd: 'SGLT2i + ARNI/RASi 降低 HF 事件、CV 死亡和肾功能丧失' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="第 5 章 · 一般照护原则"
+    title="管理原则与生活方式"
+    description="CKM 管理的总体原则：以非评判性方法实施肥胖管理、全面解决风险因素、多学科协作减少碎片化，并将缓解 SDOH 影响的努力整合到照护中。"
+    breadcrumb="管理原则"
+  />
+
+  {/* 一般原则 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">四个总体原则</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">CKM 照护的根基</h2>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {principles.map((item) => (
+        <div class="card p-5">
+          <p class="font-serif text-3xl font-bold mb-3" style={`color:${item.color}`}>{item.label}</p>
+          <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+        </div>
+      ))}
+    </div>
+
+    <div class="callout callout-info mt-8 max-w-3xl">
+      <p class="callout-title">⭐ Life's Essential 8</p>
+      <p>AHA <strong>Life's Essential 8</strong> 框架代表一组可在人群健康水平实施、跨所有 CKM 综合征分期相关的健康生活方式和风险因素优化措施。代谢风险因素、CKD 和 CVD 之间的相互联系意味着需要考虑使用<strong>具有多器官获益的疗法</strong>。</p>
+    </div>
+  </section>
+
+  {/* 多学科照护 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">第 5.1 节 · 多学科照护</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">多学科团队与 CKM 协调人</h2>
+        <p class="text-muted leading-relaxed">CKM 综合征患者通常需要多位临床医生照护多种状况，容易导致照护碎片化。多学科团队配合协调人是核心解法。</p>
+      </div>
+
+      <div class="space-y-4 mb-8">
+        {multidisciplinaryRecs.map((rec) => (
+          <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} />
+        ))}
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="font-serif font-bold text-ink mb-3">两种多学科照护方法</h3>
+          <div class="space-y-3">
+            <div class="card p-5" style="border-left:4px solid #0f766e">
+              <h4 class="font-serif font-bold text-ink mb-1">价值导向 (value-based)</h4>
+              <p class="text-sm text-muted">由协调人和多学科代表组成团队，制定管理 ≥ 2 项 CKM 状况的方案，由协调人促进跨学科沟通。</p>
+            </div>
+            <div class="card p-5" style="border-left:4px solid #b45309">
+              <h4 class="font-serif font-bold text-ink mb-1">服务量导向 (volume-based)</h4>
+              <p class="text-sm text-muted">高危患者被转诊至相关亚专科，由 CKM 协调人提供导航支持。</p>
+            </div>
+          </div>
+          <p class="text-xs text-subtle mt-3">两种方法中，照护可虚拟或面对面提供。</p>
+        </div>
+        <div>
+          <h3 class="font-serif font-bold text-ink mb-3">按风险分级的应用框架</h3>
+          <div class="space-y-3">
+            <div class="card p-4">
+              <span class="chip mb-2">低负担风险因素</span>
+              <p class="text-sm text-muted">单学科 + 生活方式指导</p>
+            </div>
+            <div class="card p-4" style="border-left:4px solid #b45309">
+              <span class="chip mb-2" style="background:#fffbeb;color:#b45309;border-color:#fde68a">≥ 2 项 CKM 状况（中等风险）</span>
+              <p class="text-sm text-muted">价值导向多学科团队 + 协调人</p>
+            </div>
+            <div class="card p-4" style="border-left:4px solid #be123c">
+              <span class="chip mb-2" style="background:#fff1f2;color:#be123c;border-color:#fecdd3">≥ 2 项高危状况</span>
+              <p class="text-sm text-muted">服务量导向多学科策略 + 亚专科转诊</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 mt-8">
+        <div>
+          <h3 class="font-serif font-bold text-ink mb-3">CKM 多学科团队组成</h3>
+          <div class="table-wrap"><table class="tbl">
+            <thead><tr><th>类别</th><th>成员</th></tr></thead>
+            <tbody>
+              {teamComposition.map((row) => (
+                <tr>
+                  <td><strong>{row.category}</strong></td>
+                  <td>{row.members}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table></div>
+        </div>
+        <div>
+          <h3 class="font-serif font-bold text-ink mb-3">协调服务内容</h3>
+          <div class="table-wrap"><table class="tbl">
+            <thead><tr><th>服务</th><th>内容</th></tr></thead>
+            <tbody>
+              {coordinationServices.map((row) => (
+                <tr>
+                  <td><strong>{row.service}</strong></td>
+                  <td>{row.content}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <div class="callout callout-note mt-8 max-w-3xl">
+        <p class="callout-title">🔬 循证支持</p>
+        <p class="text-sm"><strong>STENO-2 试验</strong>长期随访显示，多学科团队（医生、护士、营养师）针对 T2D、超重/肥胖和微量白蛋白尿患者的多因素干预改善全因死亡率。<strong>COORDINATE-Diabetes 试验</strong>显示，强调心脏病学家与糖尿病照护临床医生合作的干预，改善了 T2D 和 ASCVD 患者的循证治疗处方。一项 19 项 RCT 的 meta 分析显示，团队中包含至少 3 个卫生学科专业人员显著降低了初级保健中糖尿病患者的心血管风险因素。</p>
+      </div>
+    </div>
+  </section>
+
+  {/* Stage 0 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="tri-dot" style="background:#f5f5f4;color:#57534e;border:1px solid #d6d3d1;width:42px;height:42px">0</span>
+      <div><p class="eyebrow">第 5.2 节</p><h2 class="font-serif text-2xl font-bold text-ink">0 期 · 原始预防</h2></div>
+    </div>
+    <p class="text-muted leading-relaxed max-w-2xl mb-5">0 期个体无 CKM 风险因素，最常见于儿童青少年和年轻成人。<strong>90%–95% 美国成人处于 CKM 1–4 期</strong>，凸显从生命早期维持理想心血管健康的迫切性。纵向数据显示，大多数中年 0 期个体在 10 年期间进展至更高级分期。</p>
+    <div class="callout callout-info max-w-2xl">
+      <p class="callout-title">核心目标</p>
+      <p>重点是<strong>原始预防 (primordial prevention)</strong>——预防 CKM 风险因素的发展，特别是预防<strong>过多和功能障碍性脂肪组织</strong>的发展。从儿童青少年到中年的代谢风险因素出现，主要与年龄相关的体重增加相关。</p>
+    </div>
+  </section>
+
+  {/* Stage 1 肥胖管理 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="tri-dot" style="background:#f0fdfa;color:#0d9488;border:1px solid #99f6e4;width:42px;height:42px">1</span>
+        <div><p class="eyebrow">第 5.4 节</p><h2 class="font-serif text-2xl font-bold text-ink">1 期 · 肥胖管理与强化生活方式</h2></div>
+      </div>
+      <p class="text-muted leading-relaxed max-w-2xl mb-6">1 期管理目标是预防额外代谢风险因素发展，包括生活方式改变和减重。体重管理采用多模式方法：<strong>生活方式改变咨询 + 减重药物和/或代谢减重手术</strong>，目标至少 <strong>5%–10% 减重</strong>以降低 CKM 相关风险。</p>
+
+      <h3 class="font-serif text-xl font-bold text-ink mb-4">肥胖管理的总体方法</h3>
+      <div class="space-y-4 mb-8">
+        {obesityRecs.map((rec) => (
+          <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} />
+        ))}
+      </div>
+
+      <h3 class="font-serif text-xl font-bold text-ink mb-4 mt-10">强化生活方式改变的核心组成</h3>
+      <div class="grid md:grid-cols-3 gap-4 mb-6">
+        {lifestyleComponents.map((item) => (
+          <div class="card p-5">
+            <span class="chip mb-3">{item.chip}</span>
+            <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+          </div>
+        ))}
+      </div>
+      <div class="callout callout-warn max-w-3xl">
+        <p class="callout-title">⚠️ 现实差距</p>
+        <p>强化项目的可用性有限，特别是在农村和弱势城市地区。成本和覆盖范围通常是参与的障碍。自我指导<strong>数字健康解决方案</strong>（COR 2a）可能对存在重大障碍的患者有益。</p>
+      </div>
+    </div>
+  </section>
+
+  {/* 妊娠糖尿病 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">第 5.4.5 节 · 妊娠糖尿病后管理</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">妊娠糖尿病 (GDM) 后管理</h2>
+      <p class="text-muted leading-relaxed">美国 2%–10% 的分娩未治疗 GDM，10–20 年内进展为 T2D 的可能性为 <strong>35%–60%</strong>。肥胖、孕期过度增重和产后体重滞留使随后 T2D 风险增加 10 倍、CVD 风险增加 2 倍。</p>
+    </div>
+    <div class="space-y-4">
+      {gdmRecs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} />
+      ))}
+    </div>
+  </section>
+
+  {/* Stage 2 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="tri-dot" style="background:#fffbeb;color:#b45309;border:1px solid #fde68a;width:42px;height:42px">2</span>
+        <div><p class="eyebrow">第 5.5 节</p><h2 class="font-serif text-2xl font-bold text-ink">2 期 · 代谢风险因素与 CKD</h2></div>
+      </div>
+      <p class="text-muted leading-relaxed max-w-2xl mb-6">2 期预防转变到更专注于<strong>及时解决代谢风险因素和 CKD</strong>，以预防进展至临床 CVD 和肾衰竭。除生活方式外，<strong>核心是 T2D 中使用心血管保护性降糖药物</strong>和<strong>CKD 中使用肾脏保护药物</strong>。<strong>PREVENT-CVD 10 年风险 ≥ 7.5%</strong> 可进一步指导药物治疗。</p>
+
+      <h3 class="font-serif text-xl font-bold text-ink mb-4">高血压管理要点</h3>
+      <div class="grid md:grid-cols-2 gap-4 mb-8">
+        <div class="card p-5">
+          <p class="text-sm text-muted leading-relaxed"><strong class="text-ink">生活方式</strong>：钠摄入减少、减重、增加体力活动、坚持 DASH 或地中海饮食。<br><strong class="text-ink">药物治疗指征</strong>：平均 BP ≥ 140/90 mmHg；或 ≥ 130/80 mmHg 且有临床 CVD、卒中、糖尿病、CKD 或 10 年 PREVENT-CVD ≥ 7.5%。<br><strong class="text-ink">目标</strong>：&lt; 130/80 mm Hg。</p>
+        </div>
+        <div class="card p-5">
+          <p class="text-sm text-muted leading-relaxed"><strong class="text-ink">一线药物</strong>：RASi、噻嗪类利尿剂、长效二氢吡啶钙通道阻滞剂，起始包括一线药物的单片复方制剂。<br><strong class="text-ink">RASi</strong>提供 BP 控制 + 肾脏和心血管保护，<strong>在伴 CKD 和白蛋白尿患者中首选</strong>。</p>
+        </div>
+      </div>
+
+      <h3 class="font-serif text-xl font-bold text-ink mb-4">高甘油三酯血症要点</h3>
+      <div class="callout callout-note max-w-3xl">
+        <p class="text-sm"><strong>定义</strong>：空腹甘油三酯 ≥ 150 mg/dL 或非空腹 ≥ 175 mg/dL。升高的甘油三酯与 ASCVD 风险和 CKD 发病率相关。<br><strong>初始治疗</strong>：生活方式改变 + 他汀治疗。<strong>持续高甘油三酯</strong>或心血管风险因素者可考虑 icosapent ethyl。<strong>严重高甘油三酯（≥ 500 mg/dL）</strong>增加 ASCVD 和胰腺炎风险。</p>
+      </div>
+
+      <div class="callout callout-info mt-8 max-w-3xl">
+        <p class="callout-title">T2D 综合管理目标</p>
+        <p class="text-sm"><strong>HbA1c &lt; 7.0%</strong>（无显著低血糖的非妊娠成人）；<strong>BP &lt; 130/80 mmHg</strong>。≥ 40 岁糖尿病患者建议中等至高强度他汀治疗，更高 ASCVD 风险者加用依折麦布以降低 LDL-C ≥ 50%。CVD 风险增加者建议 SGLT2i 或 GLP-1 类疗法，药物选择由合并症指导。</p>
+      </div>
+    </div>
+  </section>
+
+  {/* Stage 3 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="tri-dot" style="background:#fff1f2;color:#be123c;border:1px solid #fecdd3;width:42px;height:42px">3</span>
+      <div><p class="eyebrow">第 5.6 节</p><h2 class="font-serif text-2xl font-bold text-ink">3 期 · 亚临床 CVD</h2></div>
+    </div>
+    <p class="text-muted leading-relaxed max-w-2xl mb-6">3 期特征是亚临床 CVD（亚临床冠脉粥样硬化或 pre-HF）合并 CKM 风险因素，或亚临床 CVD 的风险等效（极高危 CKD 或 10 年风险 ≥ 20%）。高绝对风险证明强化治疗可带来比 2 期更大的绝对风险降低。</p>
+
+    <div class="space-y-4 mb-6">
+      {stage3Recs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} />
+      ))}
+    </div>
+
+    <h3 class="font-serif text-xl font-bold text-ink mb-4 mt-8">Pre-HF 诊断阈值</h3>
+    <div class="table-wrap"><table class="tbl">
+      <thead><tr><th>类别</th><th>阈值</th></tr></thead>
+      <tbody>
+        {preHfThresholds.map((row) => (
+          <tr>
+            <td><strong>{row.category}</strong></td>
+            <td set:html={row.threshold}></td>
+          </tr>
+        ))}
+      </tbody>
+    </table></div>
+  </section>
+
+  {/* 重叠疾病表 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">治疗决策焦点</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">CKM 重叠疾病的治疗考虑</h2>
+        <p class="text-muted leading-relaxed">重叠疾病是 CKM 综合征固有的，可作为治疗决策的焦点以最大化临床获益。下表总结关键重叠疾病的核心管理思路。</p>
+      </div>
+      <div class="table-wrap"><table class="tbl">
+        <thead><tr><th>重叠疾病</th><th>肥胖</th><th>T2D</th><th>CKD</th></tr></thead>
+        <tbody>
+          {overlapRows.map((row) => (
+            <tr>
+              <td><strong>{row.disease}</strong></td>
+              <td class={row.muted1 ? 'text-subtle' : ''}>{row.obesity}</td>
+              <td class={row.muted2 ? 'text-subtle' : ''}>{row.t2d}</td>
+              <td class={row.muted3 ? 'text-subtle' : ''}>{row.ckd}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <Cta
+    eyebrow="下一步"
+    title="具体的药物与手术"
+    description="深入各类药物：减重药、GLP-1、SGLT2i、finerenone 与代谢减重手术。"
+    linkHref="/treatment.html"
+    linkLabel="查看药物治疗 →"
+    gradient="linear-gradient(135deg,#f0fdfa,#fffbeb)"
+  />
+</BaseLayout>

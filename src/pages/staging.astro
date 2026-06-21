@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+
+const title = 'CKM 分期系统 · CKM 健康指南';
+const description = 'CKM 综合征 0–4 期详细诊断标准、阈值，以及儿童青少年分期、KDIGO CKD 风险分级、代谢综合征定义。';
+
+const stageOverview = [
+  { color: '#a8a29e', stage: 'Stage 0', desc: '无 CKM 风险因素', detail: 'BMI、腰围、血糖、血压、血脂均正常；无 CKD 或亚临床/临床 CVD。重点是<strong>原始预防</strong>。' },
+  { color: '#0d9488', stage: 'Stage 1', desc: '过多/功能障碍性脂肪', detail: '超重/肥胖、腹型肥胖，或糖尿病前期。无其他代谢风险因素、CKD 或 CVD。' },
+  { color: '#b45309', stage: 'Stage 2', desc: '代谢风险因素和/或 CKD', detail: '高血压、高甘油三酯、代谢综合征、T2D，或中-高危 CKD（KDIGO 分级）。' },
+  { color: '#be123c', stage: 'Stage 3', desc: '亚临床 CVD + CKM 风险', detail: '亚临床冠脉粥样硬化或早期心衰 (pre-HF)；或极高危 CKD；或 10 年 CVD 风险 ≥ 20%。' },
+  { color: '#7f1d1d', stage: 'Stage 4', desc: '临床 CVD + CKM 风险', detail: '已确诊冠心病、HF、卒中、PAD、房颤，合并 CKM 风险因素。<strong>4a</strong> 无肾衰竭；<strong>4b</strong> 有肾衰竭。' },
+];
+
+const accordions = [
+  {
+    n: '0', bg: '#f5f5f4', color: '#57534e', border: '#d6d3d1',
+    title: 'Stage 0 · 无 CKM 风险因素',
+    content: `<p class="text-muted leading-relaxed mb-3">正常 BMI 和腰围、正常血糖、正常血压、正常血脂，<strong>无 CKD 或亚临床/临床 CVD 证据</strong>。0 期最常见于儿童青少年和年轻成人。<strong>90%–95% 美国成人处于 CKM 1–4 期</strong>，0 期管理的核心是<strong>原始预防</strong>——预防过多和功能障碍性脂肪组织的发展。</p>
+    <div class="callout callout-info"><p class="callout-title">关键数据</p><p>纵向研究显示，大多数中年 0 期个体在 10 年期间会进展至更高级 CKM 分期，与 CVD 和死亡率风险增加相关。男性和黑人成人比女性和白人成人更不可能维持 0 期。</p></div>`,
+  },
+  {
+    n: '1', bg: '#f0fdfa', color: '#0d9488', border: '#99f6e4',
+    title: 'Stage 1 · 过多或功能障碍性脂肪组织',
+    content: `<p class="text-muted leading-relaxed mb-4">超重/肥胖、腹型肥胖，或功能障碍性脂肪组织（糖尿病前期），<strong>无其他代谢风险因素或 CKD</strong>。满足以下任一即可：</p>
+    <div class="table-wrap"><table class="tbl"><thead><tr><th>指标</th><th>阈值</th></tr></thead><tbody>
+      <tr><td>BMI</td><td class="num">≥ 25 kg/m²（亚裔 ≥ 23 kg/m²）</td></tr>
+      <tr><td>腰围（女性）</td><td class="num">≥ 88 cm（亚裔 ≥ 80 cm）</td></tr>
+      <tr><td>腰围（男性）</td><td class="num">≥ 102 cm（亚裔 ≥ 90 cm）</td></tr>
+      <tr><td>空腹血糖</td><td class="num">100–125 mg/dL</td></tr>
+      <tr><td>HbA1c</td><td class="num">5.7%–6.4%</td></tr>
+    </tbody></table></div>
+    <p class="text-sm text-muted mt-4"><strong class="text-ink">注意：</strong>糖尿病前期被纳入"功能障碍性脂肪组织"，反映在无过多脂肪情况下也可能发生导致胰岛素抵抗的代谢紊乱。同时测量 BMI 和腰围，两个参数均升高者应作为减重优先群体。</p>`,
+  },
+  {
+    n: '2', bg: '#fffbeb', color: '#b45309', border: '#fde68a',
+    title: 'Stage 2 · 代谢风险因素和/或 CKD',
+    content: `<p class="text-muted leading-relaxed mb-4">存在代谢风险因素、中-高危 CKD，或两者并存，<strong>无亚临床或临床 CVD</strong>。满足以下任一：</p>
+    <div class="table-wrap"><table class="tbl"><thead><tr><th>代谢风险因素</th><th>阈值 / 定义</th></tr></thead><tbody>
+      <tr><td>高血压</td><td class="num">SBP ≥ 130 mmHg，DBP ≥ 80 mmHg 或使用降压药</td></tr>
+      <tr><td>高甘油三酯血症</td><td class="num">≥ 150 mg/dL</td></tr>
+      <tr><td>代谢综合征</td><td>AHA/NHLBI 标准（见下）</td></tr>
+      <tr><td>2 型糖尿病 (T2D)</td><td class="num">空腹血糖 ≥ 126 mg/dL 或 HbA1c ≥ 6.5%</td></tr>
+      <tr><td>中-高危 CKD</td><td>按 KDIGO 分级（见下）</td></tr>
+    </tbody></table></div>`,
+  },
+  {
+    n: '3', bg: '#fff1f2', color: '#be123c', border: '#fecdd3',
+    title: 'Stage 3 · 亚临床 CVD 合并 CKM 风险因素',
+    content: `<p class="text-muted leading-relaxed mb-4">亚临床 CVD（亚临床冠脉粥样硬化或 pre-HF）合并过多/功能障碍性脂肪组织、其他代谢风险因素或 CKD；<strong>或亚临床 CVD 的风险等效</strong>：</p>
+    <div class="table-wrap"><table class="tbl"><thead><tr><th>依据</th><th>诊断标准</th></tr></thead><tbody>
+      <tr><td>亚临床冠脉粥样硬化</td><td class="num">CAC Agatston 评分 ≥ 100</td></tr>
+      <tr><td>早期心衰 (pre-HF)</td><td>心脏生物标志物升高：NT-proBNP ≥ 125 pg/mL；女性 hs-cTnT ≥ 14 ng/L 且男性 ≥ 22 ng/L；女性 hs-cTnI ≥ 10 ng/L 且男性 ≥ 12 ng/L；或超声心动图异常</td></tr>
+      <tr><td>极高危 CKD</td><td>G4–G5 期</td></tr>
+      <tr><td>10 年 CVD 风险</td><td class="num">≥ 20%（PREVENT-CVD）</td></tr>
+    </tbody></table></div>
+    <div class="callout callout-note mt-4"><p class="callout-title">两者并存</p><p>亚临床冠脉粥样硬化与 pre-HF <strong>同时存在</strong>时，提示心衰风险最高。这一期的高绝对风险证明强化治疗可带来更大的绝对风险降低。</p></div>`,
+  },
+  {
+    n: '4', bg: '#fff1f2', color: '#7f1d1d', border: '#fda4af',
+    title: 'Stage 4 · 临床 CVD 合并 CKM 风险因素',
+    content: `<p class="text-muted leading-relaxed mb-4">临床 CVD（冠心病、HF、卒中、PAD、房颤）合并过多/功能障碍性脂肪组织、其他 CKM 风险因素或 CKD。按是否合并肾衰竭分为两个亚期：</p>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div class="card p-5" style="border-left:4px solid #be123c"><h3 class="font-serif font-bold text-ink mb-1">Stage 4a</h3><p class="text-sm text-muted">临床 CVD + CKM 风险因素，<strong>无肾衰竭</strong>。eGFR ≥ 15 mL/min/1.73m²，未长期透析。</p></div>
+      <div class="card p-5" style="border-left:4px solid #7f1d1d"><h3 class="font-serif font-bold text-ink mb-1">Stage 4b</h3><p class="text-sm text-muted">临床 CVD + CKM 风险因素，<strong>有肾衰竭</strong>。eGFR &lt; 15 mL/min/1.73m² 或需要长期肾脏替代治疗。</p></div>
+    </div>
+    <p class="text-sm text-muted mt-4">4 期管理侧重于在 CKM 风险因素背景下优化 CVD <strong>二级预防</strong>，强调强化生活方式与风险因素修改、维持健康体重与最佳风险因素控制。详见<a href="/cvd.html" class="text-brand font-medium hover:underline">心血管疾病管理</a>。</p>`,
+  },
+];
+
+const tabs = [
+  { id: 'obesity', label: '超重与肥胖', active: true, content: `<div class="table-wrap"><table class="tbl"><thead><tr><th>分类</th><th>标准（按年龄性别 BMI 百分位）</th></tr></thead><tbody>
+    <tr><td>超重</td><td>BMI ≥ 第 85 至 &lt; 第 95 百分位</td></tr>
+    <tr><td>肥胖</td><td>BMI ≥ 第 95 百分位</td></tr>
+    <tr><td>重度肥胖</td><td>BMI ≥ 第 95 百分位的 120%</td></tr>
+    <tr><td>2 类肥胖</td><td>第 95 百分位的 120% 至 &lt; 140%，或 BMI 35–&lt;40 kg/m²（以较低者为准）</td></tr>
+    <tr><td>3 类肥胖</td><td>第 95 百分位的 140%，或 BMI ≥ 40 kg/m²</td></tr>
+  </tbody></table></div>` },
+  { id: 'bp', label: '血压', active: false, content: `<div class="table-wrap"><table class="tbl"><thead><tr><th>&lt; 13 岁（使用血压百分位）</th><th>阈值</th></tr></thead><tbody>
+    <tr><td>正常</td><td class="num">&lt; 第 90 百分位</td></tr>
+    <tr><td>升高</td><td class="num">≥ 第 90 至 &lt; 第 95 百分位，或 120/80 至 &lt; 第 95 百分位</td></tr>
+    <tr><td>1 期高血压</td><td class="num">≥ 第 95 至 &lt; 第 95+12 mmHg，或 130/80–139/89 mmHg</td></tr>
+    <tr><td>2 期高血压</td><td class="num">≥ 第 95+12 mmHg，或 ≥ 140/90 mmHg</td></tr>
+  </tbody></table></div>
+  <div class="table-wrap mt-4"><table class="tbl"><thead><tr><th>≥ 13 岁（使用成人阈值）</th><th>阈值</th></tr></thead><tbody>
+    <tr><td>正常</td><td class="num">&lt; 120/&lt; 80 mmHg</td></tr>
+    <tr><td>升高</td><td class="num">120/&lt; 80 至 129/&lt; 80 mmHg</td></tr>
+    <tr><td>1 期高血压</td><td class="num">130/80 至 139/89 mmHg</td></tr>
+    <tr><td>2 期高血压</td><td class="num">≥ 140/90 mmHg</td></tr>
+  </tbody></table></div>` },
+  { id: 'lipid', label: '血脂异常', active: false, content: `<div class="table-wrap"><table class="tbl"><thead><tr><th>指标</th><th>阈值</th></tr></thead><tbody>
+    <tr><td>总胆固醇</td><td class="num">≥ 200 mg/dL</td></tr>
+    <tr><td>HDL-C</td><td class="num">&lt; 40 mg/dL</td></tr>
+    <tr><td>LDL-C</td><td class="num">≥ 130 mg/dL</td></tr>
+    <tr><td>甘油三酯（0–9 岁）</td><td class="num">≥ 100 mg/dL</td></tr>
+    <tr><td>甘油三酯（10–19 岁）</td><td class="num">≥ 130 mg/dL</td></tr>
+    <tr><td>非 HDL-C</td><td class="num">≥ 145 mg/dL</td></tr>
+    <tr><td>非空腹（非 HDL-C / HDL-C）</td><td class="num">≥ 145 / &lt; 40 mg/dL</td></tr>
+  </tbody></table></div>` },
+  { id: 'glucose', label: '血糖异常', active: false, content: `<div class="callout callout-info"><p class="callout-title">与成人标准相同</p><p>儿童青少年的血糖异常（糖尿病前期与糖尿病）阈值与成人相同：<br>• 糖尿病前期：空腹血糖 100–125 mg/dL 或 HbA1c 5.7%–6.4%<br>• 糖尿病：空腹血糖 ≥ 126 mg/dL 或 HbA1c ≥ 6.5%</p></div>` },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="第 2 章 · 分期定义"
+    title="CKM 综合征分期系统"
+    description={`从"无风险"到"临床心血管病"，五个分期勾勒出 CKM 综合征的发展轨迹，是预防与管理决策的起点。`}
+    breadcrumb="分期系统"
+  />
+
+  {/* 分期目的 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="card p-6"><p class="font-serif text-3xl font-bold mb-2" style="color:#0f766e">预防</p><h3 class="font-serif font-bold text-ink mb-1.5 text-sm">预防分期进展</h3><p class="text-sm text-muted">阻止从低分期向高分期发展。</p></div>
+      <div class="card p-6"><p class="font-serif text-3xl font-bold mb-2" style="color:#be123c">风险</p><h3 class="font-serif font-bold text-ink mb-1.5 text-sm">突出绝对风险升高</h3><p class="text-sm text-muted">晚期分期 CVD 绝对风险显著升高。</p></div>
+      <div class="card p-6"><p class="font-serif text-3xl font-bold mb-2" style="color:#b45309">获益</p><h3 class="font-serif font-bold text-ink mb-1.5 text-sm">鉴别最大获益人群</h3><p class="text-sm text-muted">从强化治疗中获得最大净临床获益。</p></div>
+    </div>
+  </section>
+
+  {/* 5 期总览 */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <h2 class="font-serif text-2xl font-bold text-ink mb-6">五个分期一览</h2>
+      <div class="stage-track mb-6 text-center text-xs text-subtle"><span>0 期</span><span>1 期</span><span>2 期</span><span>3 期</span><span>4 期</span></div>
+      <div class="grid lg:grid-cols-5 gap-3">
+        {stageOverview.map((s) => (
+          <div class="card p-5" style={`border-top:4px solid ${s.color}`}>
+            <h3 class="font-serif font-bold text-ink mb-1">{s.stage}</h3>
+            <p class="text-sm text-muted">{s.desc}</p>
+            <p class="text-xs text-subtle mt-3 leading-relaxed" set:html={s.detail}></p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 详细分期（折叠面板） */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <h2 class="font-serif text-3xl font-bold text-ink mb-2">各期诊断标准详解</h2>
+    <p class="text-muted mb-8 max-w-2xl">点击展开每一期查看完整诊断标准与关键阈值。</p>
+
+    <div class="space-y-3">
+      {accordions.map((item) => (
+        <>
+          <button class="accordion-trigger" data-accordion-trigger aria-expanded="false">
+            <span class="flex items-center gap-3"><span class="tri-dot" style={`background:${item.bg};color:${item.color};border:1px solid ${item.border};width:34px;height:34px;font-size:0.9rem`}>{item.n}</span><span>{item.title}</span></span>
+            <svg class="chev w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-panel-inner" set:html={item.content}></div>
+          </div>
+        </>
+      ))}
+    </div>
+  </section>
+
+  {/* 代谢综合征 + KDIGO */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div>
+          <p class="eyebrow mb-3">代谢综合征 (MetS) 定义</p>
+          <h2 class="font-serif text-2xl font-bold text-ink mb-4">满足以下 3 项或以上</h2>
+          <div class="table-wrap"><table class="tbl">
+            <thead><tr><th>#</th><th>指标</th><th>阈值</th></tr></thead>
+            <tbody>
+              <tr><td class="num">1</td><td>腰围</td><td class="num">女 ≥ 88 cm / 男 ≥ 102 cm（亚裔女 ≥ 80 / 男 ≥ 90 cm）</td></tr>
+              <tr><td class="num">2</td><td>HDL-C</td><td class="num">男 &lt; 40 mg/dL，女 &lt; 50 mg/dL</td></tr>
+              <tr><td class="num">3</td><td>甘油三酯</td><td class="num">≥ 150 mg/dL</td></tr>
+              <tr><td class="num">4</td><td>血压升高</td><td class="num">SBP ≥ 130 mmHg 或 DBP ≥ 80 mmHg 和/或使用降压药</td></tr>
+              <tr><td class="num">5</td><td>空腹血糖</td><td class="num">≥ 100 mg/dL</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div>
+          <p class="eyebrow mb-3">KDIGO CKD 风险分级</p>
+          <h2 class="font-serif text-2xl font-bold text-ink mb-4">白蛋白尿分级</h2>
+          <div class="space-y-3 mb-5">
+            <div class="flex gap-3 items-center"><span class="chip" style="background:#ecfdf5;color:#15803d;border-color:#bbf7d0">A1</span><span class="text-sm text-muted">UACR &lt; 30 mg/g（正常/轻度升高）</span></div>
+            <div class="flex gap-3 items-center"><span class="chip" style="background:#fffbeb;color:#b45309;border-color:#fde68a">A2</span><span class="text-sm text-muted">UACR 30–&lt;300 mg/g（中度升高）</span></div>
+            <div class="flex gap-3 items-center"><span class="chip" style="background:#fef2f2;color:#b91c1c;border-color:#fecaca">A3</span><span class="text-sm text-muted">UACR ≥ 300 mg/g（重度升高）</span></div>
+          </div>
+          <div class="callout callout-warn">
+            <p class="callout-title">CKD 风险随 CKM 分期进展而增加</p>
+            <p class="text-sm"><strong>中-高危 CKD</strong>（2 期标准）：G1–G2 A2–A3, G3a A1–A2, G3b A1<br><strong>极高危 CKD</strong>（3 期标准）：G3a A3, G3b A2–A3, G4–G5</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* 儿童青少年分期（标签页） */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">贯穿全生命周期</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">儿童青少年 CKM 风险因素阈值</h2>
+      <p class="text-muted leading-relaxed">代谢风险因素和 CKD 在儿童青少年（&lt; 18 岁）中越来越常见，并经常持续和进展至成年期。<strong>CKM 分期应在整个生命周期中实施</strong>，儿科使用特定阈值。</p>
+    </div>
+
+    <div data-tabs>
+      <div class="flex flex-wrap gap-2 mb-6">
+        {tabs.map((tab) => (
+          <button class="tab-btn" data-tab-btn={tab.id} aria-selected={tab.active ? 'true' : 'false'}>{tab.label}</button>
+        ))}
+      </div>
+
+      {tabs.map((tab) => (
+        <div class={`tab-panel ${tab.active ? 'active' : ''}`} data-tab-panel={tab.id} set:html={tab.content}></div>
+      ))}
+    </div>
+  </section>
+
+  <Cta
+    title="如何评估你的风险？"
+    description="分期之后，需要量化心血管风险——PREVENT 公式是核心工具。"
+    linkHref="/assessment.html"
+    linkLabel="查看评估诊断 →"
+    gradient="linear-gradient(135deg,#fffbeb,#f0fdfa)"
+  />
+</BaseLayout>

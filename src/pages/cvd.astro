@@ -1,0 +1,230 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+import Recommendation from '../components/Recommendation.astro';
+
+const title = '心血管疾病管理 · CKM 健康指南';
+const description = 'CKM 4 期心血管疾病管理：ASCVD、心力衰竭（HFrEF/HFpEF）、心房颤动与晚期 CKD 的二级预防策略。';
+
+const navCards = [
+  { href: '#ascvd', chip: 'ASCVD', chipBg: '#fff1f2', chipColor: '#be123c', chipBorder: '#fecdd3', desc: '动脉粥样硬化性心血管疾病' },
+  { href: '#hf', chip: 'HF', chipBg: '#fff1f2', chipColor: '#be123c', chipBorder: '#fecdd3', desc: '心力衰竭管理' },
+  { href: '#af', chip: '房颤', chipBg: '#fff1f2', chipColor: '#be123c', chipBorder: '#fecdd3', desc: '心房颤动管理' },
+  { href: '#advanced', chip: '晚期 CKD', chipBg: '#fffbeb', chipColor: '#b45309', chipBorder: '#fde68a', desc: '晚期肾脏病中的治疗' },
+];
+
+const obesityAscvdRecs = [
+  { cor: '1' as const, loe: 'A', body: '在超重或肥胖和已确立 ASCVD 的成人中，推荐实施强化的、多组分行为生活方式干预，以促进减重和改善 CKM 危险因素。' },
+  { cor: '1' as const, loe: 'B-R', body: '在超重或肥胖（BMI ≥ 27 kg/m²）和已确立 ASCVD 的成人中，推荐使用已证实具有心血管获益的 <strong>GLP-1 类疗法（如 semaglutide）</strong>，以降低心血管事件风险。', econ: '<strong>经济价值：</strong>中等确定性 · 在 2025 年美国药价下，较常规照护更具成本效益' },
+  { cor: '2a' as const, loe: 'B-NR', body: '在肥胖（BMI ≥ 30 kg/m²）和已确立 ASCVD 的成人中，对于通过生活方式干预未达减重目标的患者，考虑<strong>代谢减重手术 (MBS)</strong>以促进至少 5%–10% 的减重、改善 CKM 健康并降低心血管事件风险是合理的。' },
+  { cor: '3' as const, loe: 'B-R', body: '在超重或肥胖（BMI ≥ 27 kg/m²）和已确立 ASCVD 的成人中，使用<strong>纳曲酮/安非他酮或含芬特明的药物</strong>治疗肥胖可能是有害的，因为它们会升高血压和心率。' },
+];
+
+const t2dAscvdRecs = [
+  { cor: '1' as const, loe: 'A', body: '在 T2D 和已确立 ASCVD 的成人中，推荐制定个体化的生活方式干预计划，重点是心脏健康饮食和体育活动，以改善血糖控制，达到并维持健康体重。' },
+  { cor: '1' as const, loe: 'A', body: '在 T2D 和已确立 ASCVD 的成人中，推荐使用 <strong>SGLT2i</strong> 或已证实具有心血管获益的 <strong>GLP-1 类疗法</strong>，以降低心血管事件和心血管死亡风险。', econ: '<strong>经济价值：</strong>中等确定性 · SGLT2i 具有成本效益；GLP-1 类成本效益尚不确定' },
+  { cor: '2a' as const, loe: 'C-LD', body: '联合使用 <strong>SGLT2i 和 GLP-1 类疗法</strong>以改善心血管结局是有益的。' },
+];
+
+const hfrefPillars = [
+  { num: '1', title: 'ARNI / RASi', desc: 'ARNI（或 ACEi/ARB）' },
+  { num: '2', title: 'β 受体阻滞剂', desc: 'β-blocker' },
+  { num: '3', title: '甾体 MRA', desc: '盐皮质激素受体拮抗剂' },
+  { num: '4', title: 'SGLT2i', desc: '心血管 + 肾脏获益' },
+];
+
+const obesityHfRecs = [
+  { cor: '1' as const, loe: 'A', body: '在肥胖和症状性 <strong>HFpEF</strong> 的成人中，推荐使用已证实具有心血管获益的 <strong>GLP-1 类疗法（如 semaglutide、tirzepatide）</strong>，以改善 CKM 风险谱、功能状态和心衰症状，并预防心衰恶化事件。', econ: '<strong>经济价值：</strong>证据不足 · 成本效益尚不确定' },
+  { cor: '2a' as const, loe: 'B-R', body: '在肥胖和 HFpEF 的成人中，结合<strong>运动训练和低热量饮食</strong>以改善功能状态是有益的。' },
+  { cor: '2b' as const, loe: 'B-NR', body: '在症状性 <strong>HFrEF</strong> 的特定成人中，可考虑对<strong>肥胖进行干预</strong>，以改善功能状态，并促进符合条件患者的心脏移植。' },
+];
+
+const t2dHfRecs = [
+  { cor: '1' as const, loe: 'A', body: '在 T2D 和心力衰竭（HF，<strong>任何射血分数</strong>）的患者中，应当优先选择 <strong>SGLT2i</strong> 作为一线具有心脏保护作用的降糖药物，以降低心血管死亡和心衰住院风险。', econ: '<strong>经济价值：</strong>高度确定性 · HFrEF (LVEF ≤ 40%) 加用 SGLT2i 具有成本效益；HFpEF 证据冲突' },
+  { cor: '2a' as const, loe: 'B-R', body: '在 T2D、HFpEF 和其他 CKM 危险因素的患者中，推荐在 SGLT2i 基础上加用<strong>已证实具有心血管获益的 GLP-1 类疗法</strong>，以改善心衰症状和功能状态，并减少 CKM 相关不良结局。' },
+  { cor: '2a' as const, loe: 'B-NR', body: '在 T2D、稳定型心力衰竭、eGFR ≥ 30 mL/min/1.73m² 且 HbA1c 高于个体化目标的患者中，在 SGLT2i 基础上加用<strong>二甲双胍</strong>以帮助达到血糖目标是有益的。' },
+];
+
+const ckdHfRecs = [
+  { cor: '1' as const, loe: 'A', body: '在 CKD、eGFR ≥ 30 mL/min/1.73m² 且为 HFrEF 的成人中，推荐启动 <strong>ARNI</strong>（或在无法启动 ARNI 时启动其他 RASi），以降低心血管死亡或心衰住院以及肾功能丧失的风险。', econ: '<strong>经济价值：</strong>中等确定性 · ARNI 较 RASi 具有成本效益' },
+  { cor: '1' as const, loe: 'A', body: '在 CKD 和<strong>任何射血分数</strong>心力衰竭且 eGFR ≥ 20 mL/min/1.73m² 的成人中，推荐启动 <strong>SGLT2i</strong>，以降低心血管死亡率、心衰住院以及可能降低肾功能丧失的风险。' },
+  { cor: '2a' as const, loe: 'B-R', body: '在 CKD、T2D、UACR ≥ 30 mg/g、且为 LVEF &gt; 40% (HFmrEF 和 HFpEF) 心衰的成人中，若 eGFR ≥ 25 mL/min/1.73m²，启动<strong>非甾体盐皮质激素受体拮抗剂 (nsMRA，finerenone)</strong> 是合理的，以降低心衰住院和肾功能丧失的风险。', econ: '<strong>经济价值：</strong>证据不足' },
+  { cor: '2b' as const, loe: 'B-R', body: '在 CKD 和 HFrEF 且 eGFR &gt; 30 mL/min/1.73m² 的成人中，使用<strong>新型口服钾结合剂</strong>可能是合理的，以降低高钾血症风险并允许使用 RAAS 抑制剂。' },
+];
+
+const afCards = [
+  { chip: '抗凝', desc: '<strong>DOAC 优于华法林</strong>（直接口服抗凝药）。' },
+  { chip: '节律控制', desc: '根据临床情况选择节律或室率控制策略。' },
+  { chip: '风险因素', desc: '减重、血压控制、OSA 治疗、酒精限制——是 AF 管理的关键组成部分。' },
+  { chip: '多学科', desc: '综合风险因素管理优于单一治疗。' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader
+    eyebrow="第 6 章 · 4 期心血管管理"
+    title="心血管疾病的二级预防"
+    description="CKM 4 期患者已确诊临床 CVD（ASCVD 或 HF）。管理侧重于在 CKM 风险因素背景下优化二级预防策略——强化生活方式、维持健康体重、最佳风险因素控制。"
+    breadcrumb="心血管管理"
+    gradientFrom="#fff1f2"
+    eyebrowColor="#be123c"
+  />
+
+  {/* Stage 4 概要 */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="tri-dot" style="background:#fff1f2;color:#7f1d1d;border:1px solid #fda4af;width:42px;height:42px">4</span>
+      <div><p class="eyebrow">第 6.1 节</p><h2 class="font-serif text-2xl font-bold text-ink">4 期 · 临床 CVD + CKM 风险</h2></div>
+    </div>
+    <p class="text-muted leading-relaxed max-w-2xl mb-6">4 期患者分为 <strong>4a</strong>（无肾衰竭）和 <strong>4b</strong>（有肾衰竭）。本章重点介绍 ASCVD 与 HF 的具体管理推荐，以及房颤与晚期 CKD 的特殊考虑。</p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {navCards.map((item) => (
+        <a href={item.href} class="card card-hover p-4">
+          <span class="chip mb-2" style={`background:${item.chipBg};color:${item.chipColor};border-color:${item.chipBorder}`}>{item.chip}</span>
+          <p class="text-sm text-muted">{item.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* ASCVD */}
+  <section id="ascvd" class="bg-surface/60 border-y border-line scroll-mt-20">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3" style="color:#be123c">第 6.2 节 · ASCVD 管理</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">动脉粥样硬化性心血管疾病</h2>
+        <p class="text-muted leading-relaxed">ASCVD 患者管理应强调 CKM 综合征合并症：肥胖治疗、T2D 患者使用心血管保护性降糖药、CKD 患者使用肾脏保护药物，目标降低心血管不良事件风险和肾功能丧失。</p>
+      </div>
+
+      <h3 class="font-serif text-xl font-bold text-ink mb-4">肥胖 + ASCVD（4 期）</h3>
+      <div class="space-y-4 mb-6">
+        {obesityAscvdRecs.map((rec) => (
+          <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} econ={rec.econ} />
+        ))}
+      </div>
+
+      <div class="callout callout-info max-w-3xl mb-8">
+        <p class="callout-title">🔬 SELECT 试验的关键发现</p>
+        <p class="text-sm"><strong>SELECT 试验</strong>显示 semaglutide 在超重/肥胖和已确立 CVD 患者中降低 MACE 风险 <strong>20%</strong>（心血管死亡、非致死性 MI 或非致死性卒中的复合主要终点）。这种心血管获益<strong>大多独立于达到的减重程度</strong>。约 5% 体重减轻即可显著改善伴肥胖和 CVD 患者的多种代谢风险因素。</p>
+      </div>
+
+      <h3 class="font-serif text-xl font-bold text-ink mb-4 mt-10">T2D + ASCVD（4 期）</h3>
+      <div class="space-y-4 mb-6">
+        {t2dAscvdRecs.map((rec) => (
+          <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} econ={rec.econ} />
+        ))}
+      </div>
+      <div class="callout callout-note max-w-3xl">
+        <p class="text-sm"><strong>STENO-2 试验</strong>显示 T2D、超重/肥胖和微量白蛋白尿患者中多因素干预降低心血管事件和死亡率。GLP-1 类疗法常引起显著减重和 CKM 风险状况及 MASLD 改善，而 SGLT2i 对 CKD 有显著影响。鉴于其不同机制，<strong>心血管风险降低可能在两类药物联用时更大</strong>。</p>
+      </div>
+
+      <h3 class="font-serif text-xl font-bold text-ink mb-4 mt-10">CKD + ASCVD（4 期）</h3>
+      <div class="callout callout-warn max-w-3xl">
+        <p class="callout-title">双向风险关系</p>
+        <p class="text-sm">CKD 患者具有复发 ASCVD 的高风险——CKD 增加 ASCVD 风险，而 ASCVD 进一步增加 CKD 进展风险。综合管理应包括：<strong>RASi + SGLT2i + finerenone + 他汀 + 抗血小板治疗</strong>。</p>
+      </div>
+    </div>
+  </section>
+
+  {/* HF */}
+  <section id="hf" class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3" style="color:#be123c">第 6.3 节 · 心力衰竭管理</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">心力衰竭 (HF)</h2>
+      <p class="text-muted leading-relaxed">HF 的 GDMT（指南指导的药物治疗）应优先用于所有伴 HF 且无禁忌症的患者。SGLT2i 在降低 HF 住院和心血管死亡方面具有广泛疗效，无论射血分数。</p>
+    </div>
+
+    {/* HFrEF 四联疗法 */}
+    <div class="card p-6 mb-8" style="background:#fff1f2;border-left:4px solid #be123c">
+      <h3 class="font-serif text-xl font-bold text-ink mb-3">HFrEF 四联疗法支柱</h3>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {hfrefPillars.map((p) => (
+          <div class="bg-white p-4 rounded-[var(--radius-sm)] border border-line">
+            <span class="chip mb-2" style="background:#fff1f2;color:#be123c;border-color:#fecdd3">{p.num}</span>
+            <p class="text-sm font-semibold text-ink mb-1">{p.title}</p>
+            <p class="text-xs text-subtle">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+      <p class="text-xs text-subtle mt-3">4 类药物作为四联疗法代表 HFrEF 治疗的支柱，改善生存率并降低 HF 住院风险。</p>
+    </div>
+
+    <h3 class="font-serif text-xl font-bold text-ink mb-4">肥胖 + HF（4 期）</h3>
+    <div class="space-y-4 mb-8">
+      {obesityHfRecs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} econ={rec.econ} />
+      ))}
+    </div>
+    <div class="callout callout-info max-w-3xl mb-8">
+      <p class="callout-title">🔬 STEP-HFpEF 试验</p>
+      <p class="text-sm">显示 semaglutide 在 HFpEF 和肥胖患者中改善 KCCQ-CSS（变化 <strong>16.6 vs 8.7 分</strong>; P&lt;0.001）、6MWD、NT-proBNP 和 C 反应蛋白。<strong>STEP-HFpEF-DM</strong> 试验显示 T2D 亚组中也获益。几项试验证实了运动训练对 HFpEF 的安全性和有效性。</p>
+    </div>
+
+    <h3 class="font-serif text-xl font-bold text-ink mb-4 mt-10">T2D + HF（4 期）</h3>
+    <div class="space-y-4 mb-8">
+      {t2dHfRecs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} econ={rec.econ} />
+      ))}
+    </div>
+    <div class="callout callout-note max-w-3xl">
+      <p class="text-sm"><strong>EMPEROR-Preserved</strong> 和 <strong>DELIVER</strong> 试验的 meta 分析显示 SGLT2i 降低 HFpEF 患者的心血管死亡和 HF 住院。</p>
+    </div>
+
+    <h3 class="font-serif text-xl font-bold text-ink mb-4 mt-10">CKD + HF（4 期）</h3>
+    <div class="space-y-4 mb-6">
+      {ckdHfRecs.map((rec) => (
+        <Recommendation cor={rec.cor} loe={rec.loe} body={rec.body} econ={rec.econ} />
+      ))}
+    </div>
+    <div class="callout callout-info max-w-3xl">
+      <p class="callout-title">🔬 FINEARTS-HF 试验</p>
+      <p class="text-sm">证明 finerenone 降低全因死亡和 HF 住院的复合结局（伴 T2D 和 CKD 患者）。HF 常与 CKD 同时表现或发展。</p>
+    </div>
+  </section>
+
+  {/* 房颤 */}
+  <section id="af" class="bg-surface/60 border-y border-line scroll-mt-20">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3" style="color:#be123c">第 6.4 节 · 心房颤动</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">心房颤动 (AF)</h2>
+        <p class="text-muted leading-relaxed">过多和功能障碍性脂肪组织的进行性后果增加心房颤动发病风险，AF 也是 CKM 风险因素——形成双向联系。</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {afCards.map((item) => (
+          <div class="card p-5">
+            <span class="chip mb-3" style="background:#fff1f2;color:#be123c;border-color:#fecdd3">{item.chip}</span>
+            <p class="text-sm text-muted leading-relaxed" set:html={item.desc}></p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 晚期 CKD */}
+  <section id="advanced" class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14 scroll-mt-20">
+    <div class="max-w-2xl mb-8">
+      <p class="eyebrow mb-3">第 6.5 节 · 晚期 CKD</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">晚期 CKD 患者中的治疗</h2>
+      <p class="text-muted leading-relaxed">CKD G4 和 G5 赋予不良肾脏和心血管结局的<strong>极高风险</strong>。关于针对该组的 CKM 治疗药物证据有限，需要多学科照护与个体化决策。</p>
+    </div>
+    <div class="space-y-4 mb-6">
+      <Recommendation cor="2a" loe="B-R" body="在接受肾脏和心血管获益性肾脏保护疗法治疗的 CKD 成人中，如果其 eGFR 降至特定药物的启动阈值以下，在<strong>安全耐受的前提下继续这些治疗</strong>是合理的。" />
+    </div>
+    <div class="callout callout-warn max-w-3xl">
+      <p class="callout-title">⚠️ 个体化决策</p>
+      <p class="text-sm">eGFR &lt; 15 mL/min/1.73m²（CKD 5 期）靶向肾脏替代治疗考虑。该患者群体中药物剂量调整、起始新药的注意事项、特殊监测和透析时机的决定是个体化的，需要多学科照护。</p>
+    </div>
+  </section>
+
+  <Cta
+    eyebrow="下一步"
+    title="特殊情况与长期监测"
+    description="MASLD、OSA、妊娠、VTE，以及治疗开始后的监测与未来研究方向。"
+    linkHref="/special.html"
+    linkLabel="查看特殊情况 →"
+    gradient="linear-gradient(135deg,#f5f3ff,#fffbeb)"
+  />
+</BaseLayout>

@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <ClientRouter />
+  <script is:inline src="/scripts/main.js"></script>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <Header />
+
+  <main>
+    <slot />
+  </main>
+
+  <Footer />
+
+  <button id="toTop" aria-label="返回顶部">↑</button>
+</body>
+</html>

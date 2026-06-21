@@ -1,0 +1,221 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'CKM 健康指南 · 心血管-肾脏-代谢综合征科普';
+const description = '基于 2026 AHA/ACC/ADA/ASN 心血管-肾脏-代谢综合征防治指南的中文科普网站——认识 CKM 综合征、分期、风险评估、管理与治疗。';
+
+const keyPoints = [
+  { n: '1', title: '对儿童与成人进行 CKM 分期', desc: '预防分期进展、按绝对风险制定治疗、降低心血管事件与肾功能丧失，并通过生活方式与减重促进分期逆转。' },
+  { n: '2', title: '用 PREVENT 公式量化风险', desc: '估算 10 年与 30 年的 ASCVD、心衰与总 CVD 风险。10 年风险 ≥20% 是 3 期标准，≥7.5% 提示药物优先顺序。' },
+  { n: '3', title: '常规评估 CKM 风险因素', desc: '对所有成人常规评估代谢危险因素与肾功能；针对特定亚组评估早期心衰、MASLD、阻塞性睡眠呼吸暂停。' },
+  { n: '4', title: '评估并应对社会健康决定因素', desc: 'SDOH 与 CKM 及其并发症发展密切相关，发现不良 SDOH 应作为整体照护的关键部分加以处理。' },
+  { n: '5', title: '多学科协作 + CKM 协调人', desc: '合并 T2D、CKD、CVD 的患者推荐多学科照护模式，并指定一名协调人统筹团队、协助 GDMT 实施。' },
+  { n: '6', title: '评估与治疗超重和肥胖', desc: '用 BMI 与腰围评估；以生活方式为核心，必要时辅以减重药物与代谢减重手术，目标减重 5%–10%。' },
+  { n: '7', title: '糖尿病中使用心脏保护降糖药', desc: '合并 CVD 或高风险的 T2D 患者，推荐 SGLT2i、GLP-1 类药物或两者联合；按合并症选择。' },
+  { n: '8', title: '评估 CKD 并使用肾脏保护药物', desc: '用 eGFR 与 UACR 评估；RASi + SGLT2i 为一线，白蛋白尿持续加 finerenone 或 GLP-1 类药物。' },
+  { n: '9', title: 'ASCVD 患者处理 CKM 风险', desc: 'ASCVD 管理应强调 CKM 合并症：肥胖治疗、心血管保护降糖药、肾脏保护药，降低事件与肾功能丧失。' },
+  { n: '10', title: '心衰患者处理 CKM 风险', desc: 'HFrEF 强调四联疗法（RASi/ARNI + β 阻滞剂 + MRA + SGLT2i）；HFmrEF/HFpEF 以 SGLT2i 为一线，按合并症加药。' },
+];
+
+const stages = [
+  { color: '#a8a29e', title: '无风险因素', desc: 'BMI、腰围、血糖、血压、血脂均正常，无 CKD 或 CVD。' },
+  { color: '#0d9488', title: '过多/功能障碍脂肪', desc: '超重肥胖、腹型肥胖或糖尿病前期。' },
+  { color: '#b45309', title: '代谢风险/CKD', desc: '高血压、高甘油三酯、T2D、代谢综合征或中-高危 CKD。' },
+  { color: '#be123c', title: '亚临床 CVD', desc: '亚临床冠脉粥样硬化或早期心衰，或极高危 CKD、10 年风险 ≥20%。' },
+  { color: '#7f1d1d', title: '临床 CVD', desc: '已确诊冠心病、心衰、卒中、PAD、房颤，合并 CKM 风险因素。' },
+];
+
+const topics = [
+  { href: '/overview.html', char: '识', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '认识 CKM 综合征', desc: '定义、组成要素、相关疾病、为什么把它放在一起看。' },
+  { href: '/staging.html', char: '期', bg: '#f0fdfa', color: '#0d9488', border: '#99f6e4', title: '分期系统', desc: '0–4 期的诊断标准、阈值，以及儿童青少年分期。' },
+  { href: '/assessment.html', char: '估', bg: '#eff6ff', color: '#0369a1', border: '#bfdbfe', title: '评估与诊断', desc: 'PREVENT 风险公式、风险增强因素、SDOH 与纵向随访。' },
+  { href: '/management.html', char: '护', bg: '#fffbeb', color: '#b45309', border: '#fde68a', title: '管理原则与生活方式', desc: '多学科照护、Life\'s Essential 8、强化生活方式改变。' },
+  { href: '/treatment.html', char: '药', bg: '#f0fdfa', color: '#0f766e', border: '#99f6e4', title: '药物与手术治疗', desc: 'GLP-1、SGLT2i、RASi、finerenone、减重药与代谢减重手术。' },
+  { href: '/cvd.html', char: '心', bg: '#fff1f2', color: '#be123c', border: '#fecdd3', title: '心血管疾病管理', desc: '4 期 ASCVD、心衰（HFrEF/HFpEF）、房颤与晚期 CKD 的管理。' },
+  { href: '/special.html', char: '殊', bg: '#f5f3ff', color: '#7c3aed', border: '#ddd6fe', title: '特殊情况与监测', desc: 'MASLD、OSA、妊娠、VTE、治疗监测与未来研究方向。' },
+  { href: '/resources.html', char: '源', bg: '#f5f5f4', color: '#57534e', border: '#d6d3d1', title: '参考资源', desc: '缩略语表、术语表、关键临床试验与参考文献。' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  {/* ============ Hero ============ */}
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute inset-0" style="background:linear-gradient(180deg,#f0fdfa 0%,#faf9f7 55%)"></div>
+      <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-[0.07]" style="background:radial-gradient(circle,#0f766e,transparent 70%)"></div>
+      <div class="absolute top-40 -left-20 w-80 h-80 rounded-full opacity-[0.05]" style="background:radial-gradient(circle,#be123c,transparent 70%)"></div>
+    </div>
+
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 rise">
+          <p class="eyebrow mb-5">2026 AHA / ACC / ADA / ASN 指南 · 中文科普</p>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.15] text-ink mb-6">
+            心脏、肾脏与代谢<br>
+            <span style="color:#0f766e">是同一个健康故事</span>
+          </h1>
+          <p class="text-lg text-muted leading-relaxed mb-8 max-w-[var(--container-prose)]">
+            <strong class="font-semibold text-ink">心血管-肾脏-代谢综合征（CKM 综合征）</strong>是一种全身性疾病——代谢危险因素、慢性肾脏病与心血管系统之间相互影响，导致多器官损害。本站基于权威指南，用通俗语言帮你读懂它。
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="/overview.html" class="btn btn-primary">开始了解 CKM →</a>
+            <a href="/staging.html" class="btn btn-ghost">查看分期系统</a>
+          </div>
+
+          <dl class="mt-10 grid grid-cols-3 gap-4 max-w-lg">
+            <div>
+              <dt class="text-3xl font-serif font-bold tnum" style="color:#0f766e">90–95%</dt>
+              <dd class="text-sm text-subtle mt-1">美国成人处于 CKM 1–4 期</dd>
+            </div>
+            <div>
+              <dt class="text-3xl font-serif font-bold tnum" style="color:#be123c">5</dt>
+              <dd class="text-sm text-subtle mt-1">个分期（0–4）管理风险</dd>
+            </div>
+            <div>
+              <dt class="text-3xl font-serif font-bold tnum" style="color:#b45309">119</dt>
+              <dd class="text-sm text-subtle mt-1">页权威循证指南</dd>
+            </div>
+          </dl>
+        </div>
+
+        {/* 三系统视觉 */}
+        <div class="lg:col-span-5 rise rise-d2">
+          <div class="card p-7 lg:p-8">
+            <p class="eyebrow mb-4">CKM 三大支柱</p>
+            <div class="space-y-4">
+              <div class="flex items-start gap-4 p-4 rounded-[var(--radius-sm)]" style="background:#fff1f2">
+                <span class="tri-dot flex-shrink-0" style="background:#be123c;color:#fff">心</span>
+                <div>
+                  <h3 class="font-serif font-bold text-ink">心血管（Cardiovascular）</h3>
+                  <p class="text-sm text-muted mt-1">动脉粥样硬化、心力衰竭、心房颤动——CKM 的最终受损器官之一。</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4 p-4 rounded-[var(--radius-sm)]" style="background:#fffbeb">
+                <span class="tri-dot flex-shrink-0" style="background:#b45309;color:#fff">肾</span>
+                <div>
+                  <h3 class="font-serif font-bold text-ink">肾脏（Kidney）</h3>
+                  <p class="text-sm text-muted mt-1">慢性肾脏病与心血管病互为风险放大器，eGFR 与 UACR 是关键指标。</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4 p-4 rounded-[var(--radius-sm)]" style="background:#f0fdfa">
+                <span class="tri-dot flex-shrink-0" style="background:#0d9488;color:#fff">代</span>
+                <div>
+                  <h3 class="font-serif font-bold text-ink">代谢（Metabolic）</h3>
+                  <p class="text-sm text-muted mt-1">肥胖、2 型糖尿病、血脂异常、高血压——CKM 链条的起点。</p>
+                </div>
+              </div>
+            </div>
+            <p class="text-xs text-subtle mt-5 leading-relaxed border-t border-line pt-4">
+              三者通过<strong class="text-ink">病理生理机制相互联系</strong>，因此指南主张<strong class="text-ink">多学科协作</strong>与<strong class="text-ink">多器官获益药物</strong>。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ 关于本指南 ============ */}
+  <section class="border-y border-line bg-surface/60">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="md:col-span-2">
+          <p class="eyebrow mb-3">关于本指南</p>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-ink mb-4">一份"活的、动态更新"的临床实践指南</h2>
+          <p class="text-muted leading-relaxed">
+            本站内容改编自《2026 AHA/ACC/ADA/ASN 心血管-肾脏-代谢综合征的预防、检测、评估与管理指南》，原文由 Ndumele、Rodriguez 等专家团队撰写，发表于 <em>J Am Coll Cardiol</em> 2026 年与 <em>Circulation</em>，共 119 页。指南正式取代 2013 年成人超重与肥胖管理指南，将心脏、肾脏、代谢健康首次整合到统一框架中。
+          </p>
+        </div>
+        <div class="card p-5 self-start">
+          <h3 class="font-serif font-bold text-ink mb-3 text-sm">指南档案</h3>
+          <ul class="text-sm space-y-2 text-muted">
+            <li class="flex justify-between gap-3 border-b border-line pb-2"><span class="text-subtle">出版机构</span><span class="text-ink text-right">AHA · ACC · ADA · ASN</span></li>
+            <li class="flex justify-between gap-3 border-b border-line pb-2"><span class="text-subtle">发表日期</span><span class="text-ink tnum">2026 年 6 月 9 日</span></li>
+            <li class="flex justify-between gap-3 border-b border-line pb-2"><span class="text-subtle">原文页数</span><span class="text-ink tnum">119 页</span></li>
+            <li class="flex justify-between gap-3 border-b border-line pb-2"><span class="text-subtle">参考文献</span><span class="text-ink tnum">600+ 条</span></li>
+            <li class="flex justify-between gap-3"><span class="text-subtle">DOI</span><span class="text-ink text-xs">10.1016/j.jacc.2026.02.001</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ 10 条关键要点 ============ */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+    <div class="max-w-2xl mb-10">
+      <p class="eyebrow mb-3">关键要点</p>
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-ink mb-4">十条最重要的事</h2>
+      <p class="text-muted leading-relaxed">指南的"核心信息"——十条面向临床与公众的 takeaway，覆盖从分期、风险评估到药物与多学科照护的全链条。</p>
+    </div>
+
+    <ol class="grid md:grid-cols-2 gap-4">
+      {keyPoints.map((item) => (
+        <li class="card card-hover p-5 flex gap-4">
+          <span class="tri-dot flex-shrink-0" style="background:#f0fdfa;color:#0f766e;border:1px solid #99f6e4;width:38px;height:38px">{item.n}</span>
+          <div>
+            <h3 class="font-serif font-bold text-ink mb-1.5">{item.title}</h3>
+            <p class="text-sm text-muted leading-relaxed">{item.desc}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {/* ============ 分期速览 ============ */}
+  <section class="bg-surface/60 border-y border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="max-w-2xl mb-8">
+        <p class="eyebrow mb-3">分期速览</p>
+        <h2 class="font-serif text-3xl font-bold text-ink mb-4">从"零风险"到"临床心血管病"</h2>
+        <p class="text-muted leading-relaxed">CKM 分期框架的核心目的：预防进展、突出晚期绝对风险升高、鉴别从强化治疗中获益最大的人群。</p>
+      </div>
+
+      <div class="stage-track mb-3">
+        <span class="stage-pill">0 期</span>
+        <span class="stage-pill">1 期</span>
+        <span class="stage-pill">2 期</span>
+        <span class="stage-pill">3 期</span>
+        <span class="stage-pill">4 期</span>
+      </div>
+
+      <div class="grid md:grid-cols-5 gap-3 mt-4">
+        {stages.map((stage) => (
+          <div class="card p-4 stage-card">
+            <div class="absolute left-0 top-0 bottom-0 w-[5px]" style={`background:${stage.color}`}></div>
+            <p class="font-serif font-bold text-ink text-sm mb-1">{stage.title}</p>
+            <p class="text-xs text-subtle leading-relaxed">{stage.desc}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 text-sm text-muted"><a href="/staging.html" class="text-brand font-medium hover:underline">查看完整分期标准与诊断阈值 →</a></p>
+    </div>
+  </section>
+
+  {/* ============ 探索导航 ============ */}
+  <section class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+    <div class="max-w-2xl mb-10">
+      <p class="eyebrow mb-3">深入阅读</p>
+      <h2 class="font-serif text-3xl font-bold text-ink mb-4">按主题探索</h2>
+      <p class="text-muted leading-relaxed">从认识疾病到具体治疗，七个主题带你完整理解 CKM 综合征的预防与管理。</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {topics.map((topic) => (
+        <a href={topic.href} class="card card-hover p-6 group">
+          <span class="tri-dot mb-4" style={`background:${topic.bg};color:${topic.color};border:1px solid ${topic.border}`}>{topic.char}</span>
+          <h3 class="font-serif font-bold text-ink mb-2 group-hover:text-brand transition-colors">{topic.title}</h3>
+          <p class="text-sm text-muted leading-relaxed">{topic.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* ============ 声明 ============ */}
+  <section class="bg-bg border-t border-line">
+    <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="callout callout-warn max-w-3xl">
+        <p class="callout-title">⚠️ 重要声明</p>
+        <p>本网站为<strong>科普内容</strong>，旨在帮助公众理解 CKM 综合征相关知识，<strong>不构成任何医疗建议</strong>，不能替代专业医务人员的诊断与治疗。所有临床决策应以最新原版指南为准，并由专业医务人员执行。如有健康问题，请咨询 qualified 医生。</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

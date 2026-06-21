@@ -1,0 +1,39 @@
+---
+import { navItems } from '../config/navigation';
+---
+
+<header class="site-header">
+  <div class="max-w-[var(--container-content)] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="/index.html" class="flex items-center gap-2.5 group">
+        <span class="tri-dot" style="background:#0f766e;color:#fff;width:36px;height:36px;font-size:0.95rem">心</span>
+        <span class="flex flex-col leading-none">
+          <span class="font-serif font-bold text-ink text-[1.05rem]">CKM 健康指南</span>
+          <span class="text-[0.7rem] text-subtle tracking-wide">心血管·肾脏·代谢</span>
+        </span>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-6" aria-label="主导航">
+        {navItems.map((item) => (
+          <a class="nav-link" href={item.href} data-nav-link>{item.label}</a>
+        ))}
+      </nav>
+
+      <button class="lg:hidden btn-ghost btn !px-3 !py-2 text-ink" data-nav-toggle aria-expanded="false" aria-label="切换菜单">
+        <span data-nav-icon>☰</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu lg:hidden border-t border-line bg-bg" data-mobile-menu>
+    <nav class="px-4 py-3 flex flex-col gap-1" aria-label="移动导航">
+      {navItems.map((item, i) => (
+        <a
+          class={`nav-link !px-2 !py-2.5 ${i < navItems.length - 1 ? 'border-b border-line/60' : ''}`}
+          href={item.href}
+          data-nav-link
+        >{item.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
