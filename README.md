@@ -103,17 +103,17 @@ CKM-Guideline-main/
 
 ## 📄 页面说明
 
-| 页面 | 文件 | 对应指南章节 | 主要内容 |
+| 页面 | 路径 | 对应指南章节 | 主要内容 |
 |------|------|-------------|----------|
-| 首页 | `index.html` | 摘要 + 关键要点 | Hero、三系统视觉、10 条 take-home、分期速览、主题导航、声明 |
-| 认识 CKM | `overview.html` | 第 2 章 | 完整/简化定义、9 大组分定义、相关疾病、治疗概念、COR/LOE 解读 |
-| 分期系统 | `staging.html` | 第 2.3 章 | 0–4 期折叠面板、MetS 标准、KDIGO 分级、儿童青少年分期标签页 |
-| 评估诊断 | `assessment.html` | 第 3–4 章 | 诊断方法、纵向评估频率表、PREVENT 公式阈值表、风险增强因素、SDOH 工具 |
-| 管理原则 | `management.html` | 第 5 章 | 四原则、多学科照护、0–3 期管理、强化生活方式、GDM、重叠疾病表 |
-| 药物治疗 | `treatment.html` | 第 5.4–5.5 节 | 减重药完整对照表、GLP-1 推荐、SGLT2i/GLP-1 不良反应、MBS、CKD 用药阶梯 |
-| 心血管管理 | `cvd.html` | 第 6 章 | 4 期 ASCVD（肥胖/T2D/CKD）、HF 四联疗法、HFpEF/HFrEF、房颤、晚期 CKD |
-| 特殊情况 | `special.html` | 第 7–9 章 | MASLD + FIB-4、OSA、妊娠、VTE、治疗监测、未来研究方向 |
-| 参考资源 | `resources.html` | 附录 | 缩略语表、术语表、12 项关键试验、参考文献、PDF 下载、方法学、声明 |
+| 首页 | `/` | 摘要 + 关键要点 | Hero、三系统视觉、10 条 take-home、分期速览、主题导航、声明 |
+| 认识 CKM | `/overview/` | 第 2 章 | 完整/简化定义、9 大组分定义、相关疾病、治疗概念、COR/LOE 解读 |
+| 分期系统 | `/staging/` | 第 2.3 章 | 0–4 期折叠面板、MetS 标准、KDIGO 分级、儿童青少年分期标签页 |
+| 评估诊断 | `/assessment/` | 第 3–4 章 | 诊断方法、纵向评估频率表、PREVENT 公式阈值表、风险增强因素、SDOH 工具 |
+| 管理原则 | `/management/` | 第 5 章 | 四原则、多学科照护、0–3 期管理、强化生活方式、GDM、重叠疾病表 |
+| 药物治疗 | `/treatment/` | 第 5.4–5.5 节 | 减重药完整对照表、GLP-1 推荐、SGLT2i/GLP-1 不良反应、MBS、CKD 用药阶梯 |
+| 心血管管理 | `/cvd/` | 第 6 章 | 4 期 ASCVD（肥胖/T2D/CKD）、HF 四联疗法、HFpEF/HFrEF、房颤、晚期 CKD |
+| 特殊情况 | `/special/` | 第 7–9 章 | MASLD + FIB-4、OSA、妊娠、VTE、治疗监测、未来研究方向 |
+| 参考资源 | `/resources/` | 附录 | 缩略语表、术语表、12 项关键试验、参考文献、PDF 下载、方法学、声明 |
 
 ---
 
@@ -594,15 +594,15 @@ const description = '页面描述';
 
 | 想看… | 直接打开 |
 |--------|----------|
-| 整体概览 | [index.html](index.html) |
-| CKM 是什么 | [overview.html](overview.html) |
-| 我处于哪一期 | [staging.html](staging.html) |
-| 怎么评估风险 | [assessment.html](assessment.html) |
-| 怎么管理 | [management.html](management.html) |
-| 用什么药 | [treatment.html](treatment.html) |
-| 已有心血管病 | [cvd.html](cvd.html) |
-| 特殊情况 | [special.html](special.html) |
-| 缩略语/参考文献/PDF | [resources.html](resources.html) |
+| 整体概览 | [/](/) |
+| CKM 是什么 | [/overview/](/overview/) |
+| 我处于哪一期 | [/staging/](/staging/) |
+| 怎么评估风险 | [/assessment/](/assessment/) |
+| 怎么管理 | [/management/](/management/) |
+| 用什么药 | [/treatment/](/treatment/) |
+| 已有心血管病 | [/cvd/](/cvd/) |
+| 特殊情况 | [/special/](/special/) |
+| 缩略语/参考文献/PDF | [/resources/](/resources/) |
 
 ---
 
